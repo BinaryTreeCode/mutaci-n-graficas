@@ -24,14 +24,15 @@ class hijos {
     }
 }
 
+var generacion2, hijos2;
 function generaciones_e_hijos() {
-    i = i-i;
+    i = 1;
     var veses = parseInt(VESES.value);
     while (i <= veses) { 
-        var generacion2 = new generacion();
+        generacion2 = new generacion();
         generaciones.push(generacion2);
 
-        var hijos2 = new hijos();
+        hijos2 = new hijos();
         hijos_generacion.push(hijos2);
         i ++;
     }
