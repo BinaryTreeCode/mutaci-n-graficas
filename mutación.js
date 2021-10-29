@@ -1,5 +1,5 @@
 var VESES = document.getElementById("veses")
-var individuos_iniciales = document.getElementById("individuos");
+var input_individuos_iniciales = document.getElementById("individuos");
 
 var boton = document.getElementById("btn");
 boton.addEventListener("click", osos, true);
@@ -8,8 +8,8 @@ var boton_make = document.getElementById("make");
 boton_make.addEventListener("click", make, true)
 
 function make() {
-    generaciones_e_hijos()
-    individuos_iniciales()
+    generaciones_e_hijos();
+    individuos_iniciales();
 }
 
 class generacion {
@@ -35,18 +35,19 @@ function generaciones_e_hijos() {
         hijos2 = new hijos();
         hijos_generacion.push(hijos2);
         i ++;
-    }
-    }
+}
+}
 
+var oso1;
 function individuos_iniciales() {
-    i = i-i;
-    var numero = parseInt(individuos_iniciales.value);
+    i = 1;
+    var numero = parseInt(input_individuos_iniciales.value);
     while (i <= numero) {
-        oso1 = new oso;
+        oso1 = new oso();
         individuos.push(oso1) 
         i ++;
-        }
-        }
+    }
+}
 
 var individuos = [
 ]
