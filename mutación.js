@@ -13,15 +13,15 @@ function make() {
 }
 
 class generacion {
-    constructor() {
+    constructor {
         generacion2 = []
     }
 }
 
+
+
 class hijos {
-    constructor() {
         hijos2 = []
-    }
 }
 
 var generacion2, hijos2;
@@ -172,6 +172,8 @@ a = 0;
 function  osos() {
     largo = individuos.length-1;
     largo_final = generaciones.length-1;
+    generacion1 = generaciones[0];
+    hijos_generacion1 = hijos_generacion[0];
 
     ciclo (largo, individuos, generacion1, hijos_generacion1)
 
@@ -181,29 +183,6 @@ function  osos() {
         a++  
     }
 }
-
-// var txt_1 = document.querySelector('input1');
-// // var txt_2 = document.querySelector('input2');
-// // var txt_3 = document.querySelector('input3');
-// // var txt_4 = document.querySelector('input4');
-// // var txt_5 = document.querySelector('input5');
-// // var txt_6 = document.querySelector('input6');
-// // var txt_7 = document.querySelector('input7');
-// // var txt_8 = document.querySelector('input8');
-// // var txt_9 = document.querySelector('input9');
-// // var txt_10 = document.querySelector('input10');
-
-// function printt ()
-// {
-//     i = 1;
-//     largo1 = generacion1.length-1;
-//     while (i <= largo1) {
-//         b =  generacion1[0].color;
-//         var txt_1 = document.querySelector('input1');
-//         txt_1.textContent. = b + " " + a;
-//         i ++;
-//     }
-// }
 
 
 
