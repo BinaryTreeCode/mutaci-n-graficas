@@ -13,15 +13,27 @@ function make() {
 }
 
 class generacion {
-    constructor {
-        generacion2 = []
+    constructor() {
+        this.generacion2 = [];
     }
 }
 
-
-
 class hijos {
-        hijos2 = []
+    constructor() {
+        this.hijos2 = [];
+    }
+}
+arrays = [];
+
+class array {
+constructor () { 
+array1 = [];
+}
+}
+var array1;
+function name() {
+    array1 = [];
+    arrays.push(array1);
 }
 
 var generacion2, hijos2;
@@ -38,12 +50,21 @@ function generaciones_e_hijos() {
 }
 }
 
+class oso {
+    constructor(m) {
+        this.muerte = Math.floor((Math.random() * 100) + 1+m);
+        this.mutación = Math.floor((Math.random() * 100) + 1-m);
+        this.estado = true;
+        this.color = true;
+    }
+}
+
 var oso1;
 function individuos_iniciales() {
     i = 1;
     var numero = parseInt(input_individuos_iniciales.value);
     while (i <= numero) {
-        oso1 = new oso();
+        oso1 = new oso(0);
         individuos.push(oso1) 
         i ++;
     }
@@ -64,19 +85,6 @@ var hijos_generacion1 = [];
 var largoo1 = true;
 var ouput_arrayy2 = true;
 
-function ciclo (largoo, input_array, array_1ouput_2input, ouput_array2) {
-    i = i-i;
-    estado(largoo, input_array)
-    mutación(largoo, input_array)
-    sobrevivientes (largoo, input_array, array_1ouput_2input)
-    largoo2 = array_1ouput_2input.length-1;
-    hijos1(largoo2,array_1ouput_2input, ouput_array2)
-
-    largoo1 = ouput_array2.length-1;
-    ouput_arrayy2 = ouput_array2;
-    M = 10;
-}
-
 function ciclo2 (generacion, hijos_generacion) {
     estado(largoo1, ouput_arrayy2)
     mutación(largoo1, ouput_arrayy2)
@@ -89,21 +97,6 @@ function ciclo2 (generacion, hijos_generacion) {
     M = M + 10;
 }
 
-function estado(largoo, input_array) {
-    i = i-i;
-    while (i <= largoo) {
-        if (input_array [0+i].muerte >= 50) 
-    {
-        input_array [0+i].estado = "vivo"
-    }  
-    else 
-    {
-        input_array [0+i].estado = "muerto"
-    }
-    
-    i ++;
-    } 
-}
 function mutación(largoo, input_array) {
     i = i-i;
 while (i <= largoo) {
@@ -157,14 +150,7 @@ function hijos1(largoo,input_array, ouput_array) {
         }
 }
 
-class oso {
-    constructor(m) {
-        this.muerte = Math.floor((Math.random() * 100) + 1+m);
-        this.mutación = Math.floor((Math.random() * 100) + 1-m);
-        this.estado = true;
-        this.color = true;
-    }
-}
+
 
 i = 0;
 M = 0;
@@ -172,17 +158,44 @@ a = 0;
 function  osos() {
     largo = individuos.length-1;
     largo_final = generaciones.length-1;
-    generacion1 = generaciones[0];
-    hijos_generacion1 = hijos_generacion[0];
+    generacion1 = generaciones[0].generacion2;
+    hijos_generacion1 = hijos_generacion[0].hijos2;
 
     ciclo (largo, individuos, generacion1, hijos_generacion1)
 
     while (a <= largo_final) {
-        ciclo2 (generaciones [0+a], hijos_generacion[0+a])
+        ciclo2 (generaciones[a].generacion2, hijos_generacion[a].hijos2)
         console.log(a);
         a++  
     }
 }
 
+function ciclo (largoo, input_array, array_1ouput_2input, ouput_array2) {
+    i = i-i;
+    estado(largoo, input_array)
+    mutación(largoo, input_array)
+    sobrevivientes (largoo, input_array, array_1ouput_2input)
+    largoo2 = array_1ouput_2input.length-1;
+    hijos1(largoo2,array_1ouput_2input, ouput_array2)
 
+    largoo1 = ouput_array2.length-1;
+    ouput_arrayy2 = ouput_array2;
+    M = 10;
+}
+
+function estado(largoo, input_array) {
+    i = i-i;
+    while (i <= largoo) {
+        if (input_array [0+i].muerte >= 50) 
+    {
+        input_array [0+i].estado = "vivo"
+    }  
+    else 
+    {
+        input_array [0+i].estado = "muerto"
+    }
+    
+    i ++;
+    } 
+}
 
