@@ -13,39 +13,40 @@ function make() {
 }
 
 class generacion {
-    constructor() {
+    constructor(numero) {
         this.generacion2 = [];
+        this.nombre = "geración " + numero;
     }
 }
 
 class hijos {
-    constructor() {
+    constructor(numero) {
         this.hijos2 = [];
+        this.nombre = "hijos " + numero;
     }
 }
-arrays = [];
 
-class array {
-constructor () { 
-array1 = [];
-}
-}
-var array1;
-function name() {
-    array1 = [];
-    arrays.push(array1);
+var muertes = [];
+class muertos {
+    constructor() {
+        this.muerte = [];
+    }
 }
 
-var generacion2, hijos2;
+
+var generacion2, hijos2, muerte, veses;
 function generaciones_e_hijos() {
     i = 1;
-    var veses = parseInt(VESES.value);
+    veses = parseInt(VESES.value);
     while (i <= veses) { 
-        generacion2 = new generacion();
+        generacion2 = new generacion(i);
         generaciones.push(generacion2);
 
-        hijos2 = new hijos();
+        hijos2 = new hijos(i);
         hijos_generacion.push(hijos2);
+        
+        muerte = new muertos();
+        muertes.push(muerte);
         i ++;
 }
 }
@@ -94,7 +95,12 @@ function ciclo2 (generacion, hijos_generacion) {
 
     largoo1 = hijos_generacion.length-1;
     ouput_arrayy2 = hijos_generacion;
-    M = M + 10;
+    if (M < 70) {
+        M = M + 1;
+    } else {
+        
+    }
+    
 }
 
 function mutación(largoo, input_array) {
@@ -113,6 +119,7 @@ while (i <= largoo) {
 }   
 }
 
+var array;
 function sobrevivientes (largoo, input_array, ouput_array) {
     i = i-i;
     while (i <= largoo) {
@@ -123,13 +130,18 @@ function sobrevivientes (largoo, input_array, ouput_array) {
     }  
     else 
     {
+        if (muertes.length <= veses) {
+            array = muertes[i]
+            array.push(input_array[i])
+        } else {
 
+        }
     }  
     i ++;
     }
 }
 
-N = 0;
+N = 25;
 function hijos1(largoo,input_array, ouput_array) {
     i = i-i;
     while (i <= largoo) {
@@ -199,3 +211,86 @@ function estado(largoo, input_array) {
     } 
 }
 
+var etiquetas = [];
+function nombres(){
+    generaciones.forEach(function(element) {
+        var etiqueta = element.nombre;
+        etiquetas.push(etiqueta);
+    });
+
+}
+
+
+function graficar() {
+    var ctx = document.getElementById('grafica').getContext('2d');
+    var myChartBar = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: etiquetas,
+        datasets: [{
+            label: 'generaciones',
+            data: [5, 7, 13, 13, 5, 9],
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.5)',
+                'rgba(54, 162, 235, 0.5)',
+                'rgba(255, 206, 86, 0.5)',
+                'rgba(75, 192, 192, 0.5)',
+                'rgba(153, 102, 255, 0.5)',
+                'rgba(255, 159, 64, 0.5)',
+                'rgba(10, 200, 100, 0.5)',
+                'rgba(255, 243, 1 , 0.5)',
+                'rgba(1, 32, 255, 0.5)',
+                'rgba(75, 0, 192, 0.5)',
+                'rgba(10, 200, 1, 0.5)',
+                'rgba(199, 24, 24, 0.5)',
+                'rgba(255, 99, 132, 0.5)',
+                'rgba(54, 162, 235, 0.5)',
+                'rgba(255, 206, 86, 0.5)',
+                'rgba(75, 192, 192, 0.5)',
+                'rgba(153, 102, 255, 0.5)',
+                'rgba(255, 159, 64, 0.5)',
+                'rgba(10, 200, 100, 0.5)',
+                'rgba(255, 243, 1 , 0.5)',
+                'rgba(1, 32, 255, 0.5)',
+                'rgba(75, 0, 192, 0.5)',
+                'rgba(10, 200, 1, 0.5)',
+                'rgba(199, 24, 24, 0.5)',
+            ],
+            borderColor: [
+                'rgba(25, 162, 235, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(54, 162, 235, 1)',
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+});
+}
