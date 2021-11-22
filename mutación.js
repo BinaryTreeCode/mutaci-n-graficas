@@ -9,66 +9,29 @@ boton.addEventListener("click", osos, true);
 var boton_make = document.getElementById("make");
 boton_make.addEventListener("click", make, true)
 
-function make() {
-    generaciones_e_hijos();
-    individuos_iniciales();
-    muertos()
-    console.log("generate");
-}
 
-class generacion {
+var base_de_datos = [];
+var veses;
+class ADA { //array_de_arrays (ADA) 
     constructor() {
-        this.generacion2 = [];
-    }
-}
-
-class hijos {
-    constructor(numero) {
-        this.hijos2 = [];
-    }
-}
-
-var MPG  = []; // MPG(Muertes_Por_Generación)
-function muertos() {
-    i = 1;
-    while (i <= veses) {
-        var muertes = new muerto();
-        MPG.push(muertes);
-        i++;
-}
-}
-class muerto {
-    constructor() {
+        this.generacion = [];
+        this.hijos = [];
         this.muertes = [];
+        this.mutantes = [];
     }
 }
-
-
-
-var generacion2, hijos2, muerte, veses;
-function generaciones_e_hijos() {
+function array_de_arrays_de_arrays() {
     i = 1;
     veses = parseInt(VESES.value);
     while (i <= veses) { 
-        generacion2 = new generacion(i);
-        generaciones.push(generacion2);
-
-        hijos2 = new hijos(i);
-        hijos_generacion.push(hijos2);
+        array = new ADA();
+        base_de_datos.push(array);
         i ++;
 }
 }
 
-class oso {
-    constructor(m) {
-        this.muerte = Math.floor((Math.random() * 100) + 1+m);
-        this.mutación = Math.floor((Math.random() * 100) + 1-m);
-        this.estado = true;
-        this.color = true;
-    }
-}
-
 var oso1;
+var individuos = [];
 function individuos_iniciales() {
     i = 1;
     var numero = parseInt(input_individuos_iniciales.value);
@@ -78,19 +41,23 @@ function individuos_iniciales() {
         i ++;
     }
 }
+class oso {
+    constructor(m) {
+        this.muerte = Math.floor((Math.random() * 100) + 1+m);
+        this.mutación = Math.floor((Math.random() * 100) + 1-m);
+        this.estado = true;
+        this.color = true;
+    }
+}
 
-var individuos = [
-]
-
-var generaciones = [
-]
-
-var hijos_generacion = [
-]
+function make() {
+    array_de_arrays_de_arrays();
+    individuos_iniciales();
+    console.log("generate");
+}
 
 
-var largoo1 = true;
-var ouput_arrayy2 = true;
+var largoo1, ouput_arrayy2;
 
 function estado(largoo, input_array) {
     i = i-i;
@@ -124,9 +91,10 @@ while (i <= largoo) {
 }   
 }
 
-var array;
+var arrayC;
+var arrayM;
+
 function sobrevivientes (largoo, input_array, ouput_array) {
-    console.log(generación_ID);
     console.log(input_array);
     i = i-i;
     while (i <= largoo) {
@@ -134,11 +102,17 @@ function sobrevivientes (largoo, input_array, ouput_array) {
         if (input_array [i].estado === "vivo") 
     {
         ouput_array.push(input_array[i])
+        if (input_array [i].color === "blanco") {
+            arrayC = base_de_datos[a].mutantes;
+            arrayC.push(input_array[i]);
+        } else {
+            
+        }
     }  
     else 
     {
-        array = MPG[a].muertes;
-        array.push(input_array[i])
+        arrayM = base_de_datos[a].muertes;
+        arrayM.push(input_array[i]);
     }  
     i ++;
     }
@@ -198,26 +172,33 @@ function ciclo2 (generacion, hijos_generacion) {
 i = 0;
 M = 0;
 a = 0;
-var generación_ID;
+var generaciones;
 function  osos() {
     i = 0
     M = 0
     
     largo = individuos.length-1;
-    largo_final = generaciones.length-1;
-    generacion1 = generaciones[0].generacion2;
-    hijos_generacion1 = hijos_generacion[0].hijos2;
+    largo_final = base_de_datos.length-1;
+    generacion1 = base_de_datos[0].generacion;
+    hijos_generacion1 = base_de_datos[0].hijos;
 
     ciclo (largo, individuos, generacion1, hijos_generacion1)
 
     a = 1
     while (a <= largo_final) {
         console.log(a);
-        ciclo2 (generaciones[a].generacion2, hijos_generacion[a].hijos2)
+        ciclo2 (base_de_datos[a].generacion, base_de_datos[a].hijos)
         a++;  
     }
+    etiquetas()
 }
 
+function etiquetas() {
+    nombres()
+    nuemero_de_muertes()
+    nuemero_de_mutantes()
+    nuemero_de_vivos()
+}
 
 var etiqueta_generación = [];
 function nombres(){
@@ -228,17 +209,38 @@ function nombres(){
         i++;
         console.log("i = " + i +" " + etiqueta_generación);
     }
-    }
+}
 
 var etiqueta_muerte = [];
 function nuemero_de_muertes() {
     i = 0;
     while (i <= veses-1) {
-        NDM = MPG[i].muertes.length // (NDM) Nuemero_De_Muertes 
+        NDM = base_de_datos[i].muertes.length // (NDM) Nuemero_De_Muertes 
         etiqueta_muerte.push(NDM);
         i++;
     } 
 }
+
+var etiqueta_mutación = [];
+function nuemero_de_mutantes() {
+    i = 0;
+    while (i <= veses-1) {
+        NDMU = base_de_datos[i].mutantes.length // (NDMU) Nuemero_De_MUtantes 
+        etiqueta_mutación.push(NDMU);
+        i++;
+    } 
+}
+
+var etiqueta_vivo = [];
+function nuemero_de_vivos() {
+    i = 0;
+    while (i <= veses-1) {
+        NDV = base_de_datos[i].generacion.length // (NDV) Nuemero_De_Vivos
+        etiqueta_vivo.push(NDV);
+        i++;
+    } 
+}
+
 
 function graficar() {
     var ctx = document.getElementById('grafica').getContext('2d');
@@ -248,7 +250,7 @@ function graficar() {
         labels: etiqueta_generación,
         datasets: [{
             label: 'generaciones',
-            data: [5, 7, 13, 13, 5, 9],
+            data: etiqueta_muerte,
             backgroundColor: [
                 'rgba(255, 99, 132, 0.5)',
                 'rgba(54, 162, 235, 0.5)',
