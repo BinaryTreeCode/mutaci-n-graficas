@@ -184,13 +184,13 @@ function  osos() {
 
     ciclo (largo, individuos, generacion1, hijos_generacion1)
 
-    a = 1
+    a = 0
     while (a <= largo_final) {
         console.log(a);
         ciclo2 (base_de_datos[a].generacion, base_de_datos[a].hijos)
         a++;  
     }
-    etiquetas()
+    graficar()
 }
 
 function etiquetas() {
@@ -240,78 +240,56 @@ function nuemero_de_vivos() {
         i++;
     } 
 }
+var colorLife = "rgb(154, 205, 56)";
+var colorMud = "rgb(154, 205, 56)";
+var color_DEHT = "#FA6484";
 
+const labels = etiqueta_generación;
+const dataset = {
+    labels: labels,
+    datasets: [
+        {
+            label: 'crecimiento poblacional',
+            fill: false,
+            backgroundColor: colorLife,
+            borderColor: colorLife,
+            data: etiqueta_vivo,
+        }, {
+            label: 'mutantes',
+            fill: false,
+            backgroundColor: colorMud,
+            borderColor: colorMud,
+            borderDash: [5, 5],
+            data: etiqueta_mutación,
+        }, {
+            label: 'Muertes',
+            backgroundColor: color_DEHT,
+            borderColor: color_DEHT,
+            data: etiqueta_muerte,
+            fill: true,
+        }
+    ]
+}
+
+function grafica() {
+const ctx = document.getElementById('grafica');
+const myChart = new Chart(ctx, {
+    type: 'line',
+    data: 
+        dataset,
+        options: {
+            animation: true,
+            responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+}
+});
+}
 
 function graficar() {
-    var ctx = document.getElementById('grafica').getContext('2d');
-    var myChartBar = new Chart(ctx, {
-    type: 'line',
-    data: {
-        labels: etiqueta_generación,
-        datasets: [{
-            label: 'generaciones',
-            data: etiqueta_muerte,
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.5)',
-                'rgba(54, 162, 235, 0.5)',
-                'rgba(255, 206, 86, 0.5)',
-                'rgba(75, 192, 192, 0.5)',
-                'rgba(153, 102, 255, 0.5)',
-                'rgba(255, 159, 64, 0.5)',
-                'rgba(10, 200, 100, 0.5)',
-                'rgba(255, 243, 1 , 0.5)',
-                'rgba(1, 32, 255, 0.5)',
-                'rgba(75, 0, 192, 0.5)',
-                'rgba(10, 200, 1, 0.5)',
-                'rgba(199, 24, 24, 0.5)',
-                'rgba(255, 99, 132, 0.5)',
-                'rgba(54, 162, 235, 0.5)',
-                'rgba(255, 206, 86, 0.5)',
-                'rgba(75, 192, 192, 0.5)',
-                'rgba(153, 102, 255, 0.5)',
-                'rgba(255, 159, 64, 0.5)',
-                'rgba(10, 200, 100, 0.5)',
-                'rgba(255, 243, 1 , 0.5)',
-                'rgba(1, 32, 255, 0.5)',
-                'rgba(75, 0, 192, 0.5)',
-                'rgba(10, 200, 1, 0.5)',
-                'rgba(199, 24, 24, 0.5)',
-            ],
-            borderColor: [
-                'rgba(25, 162, 235, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(54, 162, 235, 1)',
-            ],
-            borderWidth: 1
-        }]
-    },
-    options: {
-        scales: {
-            y: {
-                beginAtZero: true
-            }
-        }
-    }
-});
+    etiquetas()
+    grafica()
 }
