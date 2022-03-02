@@ -1,14 +1,9 @@
-console.log("hacer un array de arrays(el numero de genarciones 10) y recorrelo, "+
-"poniendo los osos muertos, lenyendo el .length");
 var VESES = document.getElementById("veses");
+//VESES  = generaciones a generar
 var input_individuos_iniciales = document.getElementById("individuos");
 
 var boton = document.getElementById("btn");
 boton.addEventListener("click", osos, true);
-
-var boton_make = document.getElementById("make");
-boton_make.addEventListener("click", make, true)
-
 
 var base_de_datos = [];
 var veses;
@@ -149,7 +144,7 @@ function ciclo (largoo, input_array, array_1ouput_2input, ouput_array2) {
 
     largoo1 = ouput_array2.length-1;
     ouput_arrayy2 = ouput_array2;
-    M = 10;
+    M = 25;
 }
 
 function ciclo2 (generacion, hijos_generacion) {
@@ -162,7 +157,8 @@ function ciclo2 (generacion, hijos_generacion) {
     largoo1 = hijos_generacion.length-1;
     ouput_arrayy2 = hijos_generacion;
     if (M < 70) {
-        M = M + 1;
+        M = M + 5;
+        console.log("suma +5"+ "m =" + M);
     } else {
         
     }
@@ -174,6 +170,7 @@ M = 0;
 a = 0;
 var generaciones;
 function  osos() {
+    make()
     i = 0
     M = 0
     
@@ -246,7 +243,7 @@ var color_DEHT = "#FA6484";
 
 const labels = etiqueta_generación;
 const dataset = {
-    labels: labels,
+    labels: etiqueta_generación,
     datasets: [
         {
             label: 'crecimiento poblacional',
@@ -278,6 +275,7 @@ const myChart = new Chart(ctx, {
     data: 
         dataset,
         options: {
+            interactive: true,
             animation: true,
             responsive: true,
                 scales: {
