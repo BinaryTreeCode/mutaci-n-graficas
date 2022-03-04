@@ -13,10 +13,12 @@ class ADA { //array_de_arrays (ADA)
         this.hijos = [];
         this.muertes = [];
         this.mutantes = [];
+        this.machos = [];
+        this.hembras = [];
     }
 }
 function array_de_arrays_de_arrays() {
-    i = 1;
+    i = a;
     veses = parseInt(VESES.value);
     while (i <= veses) {
         array = new ADA();
@@ -36,12 +38,18 @@ function individuos_iniciales() {
         i++;
     }
 }
+
 class oso {
     constructor(m) {
         this.muerte = Math.floor((Math.random() * 100) + 1 + m);
         this.mutación = Math.floor((Math.random() * 100) + 1 - m);
         this.vida = Math.floor((Math.random() * 35) + 1);
         vida();
+        if (Math.floor((Math.random() * 2) + 1) == 1) {
+            this.genero = "macho";
+        } else {
+            this.genero = "hembra";
+        }
         this.estado = true;
         this.color = true;
     }
@@ -133,21 +141,48 @@ function sobrevivientes(largoo, input_array, ouput_array) {
     }
 }
 
+
 N = 25;
-function hijos1(largoo, input_array, ouput_array) {
+function hijos1(ouput_array) {
     i = i - i;
-    while (i <= largoo) {
-        if (input_array[0 + i].color === "blanco") {
-            hijoB = new oso(M);
-            ouput_array.push(hijoB)
-            hijoB = new oso(M);
-            ouput_array.push(hijoB)
-        }
-        else {
-            hijoN = new oso(N);
-            ouput_array.push(hijoN);
-            hijoN = new oso(N);
-            ouput_array.push(hijoN);
+
+    Nhijos_cal = machos.length - hembras.length;
+
+    if (Nhijos_cal <= 0) {
+        Nhijos = machos.length;
+    } else {
+        Nhijos = hembras.length;
+    }
+    while (i <= Nhijos - 1) {
+        macho = machos[i];
+        hembra = hembras[i];
+        aleatoriedad = Math.floor((Math.random() * 100) + 1)
+
+        if (macho.color == hembra.color) {
+            if (macho.color == "blanco" && 20 <= aleatoriedad) {
+                hijoB = new oso(M);
+                ouput_array.push(hijoB)
+                hijoB = new oso(M);
+                ouput_array.push(hijoB)
+            } else if (macho.color == "negro" && 20 <= aleatoriedad){
+                hijoN = new oso(N);
+                ouput_array.push(hijoN);
+                hijoN = new oso(N);
+                ouput_array.push(hijoN);
+            }
+        } else {
+            if (50 < aleatoriedad) {
+                hijoB = new oso(M);
+                ouput_array.push(hijoB)
+                hijoB = new oso(M);
+                ouput_array.push(hijoB)
+            } 
+            else {
+                hijoN = new oso(N);
+                ouput_array.push(hijoN);
+                hijoN = new oso(N);
+                ouput_array.push(hijoN);
+            }
         }
         i++;
     }
@@ -162,10 +197,15 @@ function ciclo1(largoo, input_array, array_1ouput_2input, ouput_array2) {
         element.vida -= 10;
     });
 
+    // hay problema proque inician con muy poquita vida.
+
     sobrevivientes(largoo, input_array, array_1ouput_2input)
     largoo2 = array_1ouput_2input.length - 1;
 
-    hijos1(largoo2, array_1ouput_2input, ouput_array2)
+    machos = base_de_datos[0].machos = input_array.filter(element => element.genero === "macho");
+    hembras = base_de_datos[0].hembras = input_array.filter(element => element.genero === "hembra");
+
+    hijos1(ouput_array2)
 
     largoo1 = ouput_array2.length - 1;
     ouput_arrayy2 = ouput_array2;
@@ -173,6 +213,7 @@ function ciclo1(largoo, input_array, array_1ouput_2input, ouput_array2) {
 }
 
 function ciclo(generacion, hijos_generacion) {
+    // revisar codigo no nesario en el ciclo de aqui
     estado(largoo1, ouput_arrayy2)
     mutación(largoo1, ouput_arrayy2)
 
@@ -190,16 +231,22 @@ function ciclo(generacion, hijos_generacion) {
     });
     sobrevivientes(largoo1, ouput_arrayy2, generacion)
 
+    //HA AQUI
+
     largoo2 = generacion.length - 1;
 
-    hijos1(largoo2, generacion, hijos_generacion)
+    // hay problema proque llegan muertos a aca.
+    base_de_datos[a].machos = generacion.filter(element => element.genero === "macho");
+    base_de_datos[a].hembras = generacion.filter(element => element.genero === "hembra");
+
+    hijos1(hijos_generacion)
 
     largoo1 = hijos_generacion.length - 1;
     ouput_arrayy2 = hijos_generacion;
     if (M < 70) {
         M = M + 5;
         console.log("suma +5" + "m =" + M);
-    } 
+    }
 }
 
 i = 0;
@@ -207,6 +254,8 @@ M = 0;
 a = 0;
 var generaciones;
 function osos() {
+    a = 1; //a es la variable iterativa que se usa para el ciclo, sabiendo que cilo
+          //son todos los ciclos despues del ciclo inicial "ciclo1". 
     make()
     i = 0
     M = 0
@@ -218,7 +267,7 @@ function osos() {
 
     ciclo1(largo, individuos, generacion1, hijos_generacion1)
 
-    a = 0
+    a = a;
     while (a <= largo_final) {
         console.log(a);
         ciclo(base_de_datos[a].generacion, base_de_datos[a].hijos)
@@ -226,6 +275,7 @@ function osos() {
     }
     graficar()
 }
+
 
 function etiquetas() {
     nombres()
