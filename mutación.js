@@ -164,7 +164,7 @@ function hijos1(ouput_array) {
                 ouput_array.push(hijoB)
                 hijoB = new oso(M);
                 ouput_array.push(hijoB)
-            } else if (macho.color == "negro" && 20 <= aleatoriedad){
+            } else if (macho.color == "negro" && 20 <= aleatoriedad) {
                 hijoN = new oso(N);
                 ouput_array.push(hijoN);
                 hijoN = new oso(N);
@@ -176,7 +176,7 @@ function hijos1(ouput_array) {
                 ouput_array.push(hijoB)
                 hijoB = new oso(M);
                 ouput_array.push(hijoB)
-            } 
+            }
             else {
                 hijoN = new oso(N);
                 ouput_array.push(hijoN);
@@ -255,7 +255,7 @@ a = 0;
 var generaciones;
 function osos() {
     a = 1; //a es la variable iterativa que se usa para el ciclo, sabiendo que cilo
-          //son todos los ciclos despues del ciclo inicial "ciclo1". 
+    //son todos los ciclos despues del ciclo inicial "ciclo1". 
     make()
     i = 0
     M = 0
@@ -276,13 +276,14 @@ function osos() {
     graficar()
 }
 
-
+var etiqueta_muerto = [], etiqueta_vivo = [], etiqueta_macho = [], etiqueta_hembra = [], etiqueta_mutación = [], etiqueta_sobreviviente = [];
 function etiquetas() {
     nombres()
-    nuemero_de_muertes()
-    nuemero_de_mutantes()
-    nuemero_de_vivos()
-    // nuemero_de_repetidos() 
+    etiqueta_muerto = base_de_datos.map(element => element.muertes.length);
+    etiqueta_vivo = base_de_datos.map(element => element.generacion.length);
+    etiqueta_macho = base_de_datos.map(element => element.machos.length);
+    etiqueta_hembra = base_de_datos.map(element => element.hembras.length);
+    etiqueta_mutación = base_de_datos.map(element => element.mutantes.length);
 }
 
 var etiqueta_generación = [];
@@ -296,15 +297,6 @@ function nombres() {
     }
 }
 
-var etiqueta_muerte = [];
-function nuemero_de_muertes() {
-    i = 0;
-    while (i <= veses - 1) {
-        NDM = base_de_datos[i].muertes.length // (NDM) Nuemero_De_Muertes 
-        etiqueta_muerte.push(NDM);
-        i++;
-    }
-}
 
 // IMPROTANTE VERIFICAR SI LA MECANICA DE AÑOS SI FUCIONA BIEN, HAY UN ERROR EN LA GENERACIÓN 1
 // var etiqueta_repetido = [];
@@ -317,57 +309,54 @@ function nuemero_de_muertes() {
 //     }
 // }
 
-var etiqueta_mutación = [];
-function nuemero_de_mutantes() {
-    i = 0;
-    while (i <= veses - 1) {
-        NDMU = base_de_datos[i].mutantes.length // (NDMU) Nuemero_De_MUtantes 
-        etiqueta_mutación.push(NDMU);
-        i++;
-    }
-}
 
-var etiqueta_vivo = [];
-function nuemero_de_vivos() {
-    i = 0;
-    while (i <= veses - 1) {
-        NDV = base_de_datos[i].generacion.length // (NDV) Nuemero_De_Vivos
-        etiqueta_vivo.push(NDV);
-        i++;
-    }
-}
 var colorLife = "rgb(154, 205, 56)";
 var colorMud = "rgb(154, 205, 56)";
 var color_DEHT = "#FA6484";
+var color_hembra = "#ea899a";
+var color_macho = "#5d9b9b";
 
-const labels = etiqueta_generación;
-const dataset = {
-    labels: etiqueta_generación,
-    datasets: [
-        {
-            label: 'crecimiento poblacional',
-            fill: false,
-            backgroundColor: colorLife,
-            borderColor: colorLife,
-            data: etiqueta_vivo,
-        }, {
-            label: 'mutantes',
-            fill: false,
-            backgroundColor: colorMud,
-            borderColor: colorMud,
-            borderDash: [5, 5],
-            data: etiqueta_mutación,
-        }, {
-            label: 'Muertes',
-            backgroundColor: color_DEHT,
-            borderColor: color_DEHT,
-            data: etiqueta_muerte,
-            fill: true,
-        }
-    ]
-}
 
 function grafica() {
+    const labels = etiqueta_generación;
+    const dataset = {
+        labels: etiqueta_generación,
+        datasets: [
+            {
+                label: 'crecimiento poblacional',
+                fill: false,
+                backgroundColor: colorLife,
+                borderColor: colorLife,
+                data: etiqueta_vivo,
+            }, {
+                label: 'mutantes',
+                fill: false,
+                backgroundColor: colorMud,
+                borderColor: colorMud,
+                borderDash: [5, 5],
+                data: etiqueta_mutación,
+            }, {
+                label: 'Muertes',
+                backgroundColor: color_DEHT,
+                borderColor: color_DEHT,
+                data: etiqueta_muerto,
+                fill: true,
+            }, {
+                label: 'machos',
+                backgroundColor: color_macho,
+                borderColor: color_macho,
+                data: etiqueta_macho,
+                fill: false,
+            }, {
+                label: 'hembras',
+                backgroundColor: color_hembra,
+                borderColor: color_hembra,
+                data: etiqueta_hembra,
+                fill: false,
+            },  
+        ]
+    }
+
     const ctx = document.getElementById('grafica');
     const myChart = new Chart(ctx, {
         type: 'line',
