@@ -39,6 +39,7 @@ function individuos_iniciales() {
     }
 }
 
+comida = 0;
 class oso {
     constructor(m) {
         this.muerte = Math.floor((Math.random() * 100) + 1 + m);
@@ -51,6 +52,7 @@ class oso {
             this.genero = "hembra";
         }
         this.estado = true;
+        this.comida = 0;
         this.color = true;
     }
 }
@@ -108,9 +110,11 @@ function mutación(largoo, input_array) {
 
         if (input_array[0 + i].estado === "vivo" && input_array[0 + i].mutación <= 20) {
             input_array[0 + i].color = "blanco"
+            input_array[0 + i].comida = Math.floor((Math.random() * 2) + 1);
         }
         else {
             input_array[0 + i].color = "negro"
+            input_array[0 + i].comida = Math.floor((Math.random() * 10) + 1);
         }
         i++;
     }
