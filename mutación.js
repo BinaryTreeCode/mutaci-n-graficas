@@ -55,7 +55,7 @@ class oso {
             this.genero = "hembra";
         }
         this.estado = true;
-        this.comida = 1;
+        this.comida = 2;
         this.color = color;
     }
 }
@@ -84,20 +84,18 @@ function años(vida) {
     }
 }
 
-
 function make() {
     array_de_arrays_de_arrays();
     individuos_iniciales();
     console.log("generate");
 }
 
-
 var largoo1, ouput_arrayy2;
 
 function estado(largoo, input_array) {
     i = i - i;
     while (i <= largoo) {
-        if (input_array[i].muerte >= 50) { 
+        if (input_array[i].muerte >= 50) {
             input_array[i].estado = "vivo"
         }
         else {
@@ -111,14 +109,18 @@ function estado(largoo, input_array) {
 function mutación(largoo, input_array) {
     i = i - i;
     while (i <= largoo) {
-
-        if (input_array[0 + i].estado === "vivo" && input_array[0 + i].mutación <= 20) {
-            input_array[i].color = "blanco"
-            // arrayMT = base_de_datos[a].mutantes;
-            // arrayMT.push(input_array[i]);
+        if (input_array[i].color == "negro" || input_array[i].color == true) {
+            if (input_array[0 + i].estado === "vivo" && input_array[0 + i].mutación <= 20) {
+                input_array[i].color = "blanco"
+                // arrayMT = base_de_datos[a].mutantes;
+                // arrayMT.push(input_array[i]);
+            }
+            else {
+                input_array[i].color = "negro"
+            }
         }
         else {
-            input_array[i].color = "negro"
+
         }
         i++;
     }
@@ -130,14 +132,14 @@ function caza(largoo, input_array) {
     while (i < largoo) { //&& focas > 0
         cazador = input_array[i];
         if (cazador.color == "blanco") {
-            probalidad = /*Math.floor((Math.random() * 2) + 1)*/ 1; 
+            probalidad = Math.floor((Math.random() * 2) + 1);
         }
         else {
             probalidad = Math.floor((Math.random() * 10) + 1);
         }
         if (probalidad == 1) {
-            focas--;
-            cazador.comida += 5;
+            // focas--;
+            cazador.comida += 2;
             // console.log("caza exitosa");
         }
         i++;
@@ -150,14 +152,17 @@ function sobrevivientes(largoo, input_array, ouput_array) {
     i = i - i;
     while (i <= largoo) {
         if (input_array[i].vida <= 0) { //|| input_array[i].comida <= 0
-            input_array[i].estado = "muerto" 
-            console.log(a + " muerte natural");
+            input_array[i].estado = "muerto"
+            // console.log(a + " muerte natural");
         }
         else if (input_array[i].comida <= 0) {
             input_array[i].estado = "muerto"
-            console.log(a + " muerte hambre");
+            // console.log(a + " muerte hambre");
         }
         else if (input_array[i].estado == "muerto") {
+            // console.log(a + " muerte");
+        }
+        else if (input_array[i].estado == "muerto" && input_array[i].color == "blanco" && input_array[i].vida <= 0) {
             console.log(a + " muerte");
         }
         i++;
@@ -213,9 +218,9 @@ function hijos1(ouput_array) {
                 ouput_array.push(hijoB)
             }
             else {
-                hijoN = new oso("negro");
+                hijoN = new oso("negro", 0);
                 ouput_array.push(hijoN);
-                hijoN = new oso("negro");
+                hijoN = new oso("negro", 0);
                 ouput_array.push(hijoN);
             }
         }
@@ -229,7 +234,7 @@ function ciclo1(largoo, input_array, array_1ouput_2input, ouput_array2) {
     mutación(largoo, input_array)
 
     input_array.forEach(element => {
-        element.vida -= 1;
+        element.vida -= 5;
         element.comida -= 1;
     });
     caza(largoo, input_array)
@@ -247,7 +252,7 @@ function ciclo1(largoo, input_array, array_1ouput_2input, ouput_array2) {
     generación1 = array_1ouput_2input;
 }
 
-function ciclo(generacion, hijos_generacion) { 
+function ciclo(generacion, hijos_generacion) {
     // revisar codigo no nesario en el ciclo de aqui
     estado(largoo1, ouput_arrayy2)
     mutación(largoo1, ouput_arrayy2)
@@ -313,25 +318,57 @@ function Crear_osos() {
         ciclo(base_de_datos[a].generacion, base_de_datos[a].hijos)
         a++;
     }
-    
+
     i = 0;
     e = 0;
-    while (i <= largo_final) {        
+
+    while (i <= largo_final) {
         array1 = base_de_datos[i].generacion;
-        array2 = base_de_datos[i].mutantes;
+        array2 = base_de_datos[i].osos_blancos;
         while (e < array1.length) {
             individuo = array1[e].color;
             if (individuo == "blanco") {
                 array2.push(individuo)
-                console.log("blanco")
             }
             e++;
         }
         e = 0;
         i++;
-    }  
+    }
+
+    i = 0;
+    e = 0;
+    while (i <= largo_final) {
+        array1 = base_de_datos[i].generacion;
+        array2 = base_de_datos[i].osos_negros;
+        while (e < array1.length) {
+            individuo = array1[e].color;
+            if (individuo == "negro") {
+                array2.push(individuo)
+            }
+            e++;
+        }
+        e = 0;
+        i++;
+    }
     graficar();
 }
+
+// function mapeo(arrayX, condicion) {
+//     while (i <= largo_final) {        
+//         array1 = base_de_datos[i].generacion;
+//         array2 = base_de_datos[i].arrayX; //usar eval arraX como variable
+//         while (e < array1.length) {
+//             individuo = array1[e].color;
+//             if (individuo == condicion) {
+//                 array2.push(individuo)
+//             }
+//             e++;
+//         }
+//         e = 0;
+//         i++;
+//     }  
+// }
 
 
 var etiqueta_muerto = [], etiqueta_vivo = [], etiqueta_macho = [], etiqueta_hembra = [], etiqueta_mutación = [], etiqueta_sobreviviente = [];
@@ -341,7 +378,8 @@ function etiquetas() {
     etiqueta_vivo = base_de_datos.map(element => element.generacion.length);
     etiqueta_macho = base_de_datos.map(element => element.machos.length);
     etiqueta_hembra = base_de_datos.map(element => element.hembras.length);
-    etiqueta_mutación = base_de_datos.map(element => element.mutantes.length);
+    etiqueta_blanco = base_de_datos.map(element => element.osos_blancos.length);
+    etiqueta_negro = base_de_datos.map(element => element.osos_negros.length);
 }
 
 var etiqueta_generación = [];
@@ -372,6 +410,7 @@ var colorMud = "rgb(154, 205, 56)";
 var color_DEHT = "#FA6484";
 var color_hembra = "#ea899a";
 var color_macho = "#5d9b9b";
+var color_negro = "#7E4231";
 
 
 function grafica() {
@@ -386,12 +425,18 @@ function grafica() {
                 borderColor: colorLife,
                 data: etiqueta_vivo,
             }, {
-                label: 'mutantes',
+                label: 'polares',
                 fill: false,
                 backgroundColor: colorMud,
                 borderColor: colorMud,
                 borderDash: [5, 5],
-                data: etiqueta_mutación,
+                data: etiqueta_blanco,
+            }, {
+                label: 'pardos',
+                fill: false,
+                backgroundColor: color_negro,
+                borderColor: color_negro,
+                data: etiqueta_negro,
             }, {
                 label: 'Muertes',
                 backgroundColor: color_DEHT,
