@@ -351,6 +351,8 @@ function Crear_osos() {
         e = 0;
         i++;
     }
+    // largo = document.getElementById("contenedor");
+    // largo.style.margin-bottom = "2rem";
     graficar();
 }
 
