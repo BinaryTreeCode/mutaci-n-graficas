@@ -419,7 +419,7 @@ function grafica() {
         labels: etiqueta_generación,
         datasets: [
             {
-                label: 'crecimiento poblacional',
+                label: 'crecimiento poblacional total',
                 fill: false,
                 backgroundColor: colorLife,
                 borderColor: colorLife,
