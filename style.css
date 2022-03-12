@@ -6,7 +6,7 @@ canvas {
 body {
     display: grid;
     place-items: center;
-    background-image:url(./aDN-fondo.jpg);
+    background-image:url(./assets/aDN-fondo.jpg);
 }
 .contenedor {
     margin: 0;
