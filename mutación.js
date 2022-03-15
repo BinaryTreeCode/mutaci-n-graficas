@@ -11,16 +11,17 @@ var veses;
 //IMPORTANTE
 class ADA { //array_de_arrays (ADA) 
     constructor() {
-        this.generacion = []; /*hacer este como un toltal*/
+        this.generacion = []; /*hacer un toltal de todos los osos para hacer debugging*/
         this.osos_blancos = [];
         this.osos_negros = []
         this.hijos = [];
         this.muertes = [];
-        this.mutantes = []; /*quitar esto dejar blancos*/
         this.machos = [];
         this.hembras = [];
     }
 }
+
+//cear arrays con la clase ADA 
 function array_de_arrays_de_arrays() {
     i = a;
     veses = parseInt(VESES.value);
@@ -31,8 +32,10 @@ function array_de_arrays_de_arrays() {
     }
 }
 
+
 var oso1;
 var individuos = [];
+//cear individuos_iniciales con la clase oso 
 function individuos_iniciales() {
     i = 1;
     var numero = parseInt(input_individuos_iniciales.value);
@@ -49,6 +52,7 @@ class oso {
         this.mutación = Math.floor((Math.random() * 100) + 1);
         this.vida = Math.floor((Math.random() * 35) + 1);
         años(this.vida);
+        // this.vida = años(this.vida); is NAN
         if (Math.floor((Math.random() * 2) + 1) == 1) {
             this.genero = "macho";
         } else {
@@ -60,6 +64,7 @@ class oso {
     }
 }
 
+//determina años del oso por medio del siguiente algortimo y su variable aleatoria vida 
 function años(vida) {
     if (vida < 15) {
         vida = 15;
@@ -81,8 +86,21 @@ function años(vida) {
                 vida = 20;
             }
         }
+        // console.log("before" + vida);
+        text = String(vida); //codigo para evitar errores al quitar de 5 en 5
+        text_id = text.charAt(1);
+        textF = text.charAt(0);
+        if (text_id < 5) {
+            vida = parseInt(textF + "0");
+        }
+        else {
+            vida = parseInt(textF + "5");
+        }
+        // console.log("after" + vida); // funciona bien
     }
 }
+//ERROR porque osos deben quedar en multiplos de 5
+// y quedan en -1, 3, 17; erro de asignación linea 54
 
 function make() {
     array_de_arrays_de_arrays();
@@ -92,6 +110,8 @@ function make() {
 
 var largoo1, ouput_arrayy2;
 
+//determina si el oso esta vivo o muerto por medio del siguiente algortimo 
+//y su variable aleatoria muerte 
 function estado(largoo, input_array) {
     i = i - i;
     while (i <= largoo) {
@@ -105,15 +125,14 @@ function estado(largoo, input_array) {
     }
 }
 
-// var arrayMT;
+//determina si el oso va a mutar por medio del siguiente algortimo 
+//y su variable aleatoria mutación 
 function mutación(largoo, input_array) {
     i = i - i;
     while (i <= largoo) {
         if (input_array[i].color == "negro" || input_array[i].color == true) {
             if (input_array[0 + i].estado === "vivo" && input_array[0 + i].mutación <= 20) {
                 input_array[i].color = "blanco"
-                // arrayMT = base_de_datos[a].mutantes;
-                // arrayMT.push(input_array[i]);
             }
             else {
                 input_array[i].color = "negro"
@@ -126,11 +145,14 @@ function mutación(largoo, input_array) {
     }
 }
 
+// var focas = 5000;
+//determina si la caza de un oso va hacer extiosa por medio del siguiente  
+//algortimo y su pelaje siendo el blanco el mas apto
 function caza(largoo, input_array) {
     i = i - i;
-    focas = input_array.length;
-    while (i < largoo) { //&& focas > 0
-        cazador = input_array[i];
+    // focas = input_array.length;
+    while (i < largoo) { //&& focas > 0 //debido a la dificultad de la caza no puse un limite de focas
+        cazador = input_array[i];      
         if (cazador.color == "blanco") {
             probalidad = Math.floor((Math.random() * 2) + 1);
         }
@@ -146,7 +168,8 @@ function caza(largoo, input_array) {
     }
 }
 
-var arrayM;
+var arrayM; //arrayM array para registrar las muertes;
+//determina si el oso esta vivo o muerto por medio del siguiente algortimo 
 function sobrevivientes(largoo, input_array, ouput_array) {
     // console.log(input_array);
     i = i - i;
@@ -157,13 +180,10 @@ function sobrevivientes(largoo, input_array, ouput_array) {
         }
         else if (input_array[i].comida <= 0) {
             input_array[i].estado = "muerto"
-            // console.log(a + " muerte hambre");
+            // console.log(a + " muerte por hambre");
         }
         else if (input_array[i].estado == "muerto") {
             // console.log(a + " muerte");
-        }
-        else if (input_array[i].estado == "muerto" && input_array[i].color == "blanco" && input_array[i].vida <= 0) {
-            console.log(a + " muerte");
         }
         i++;
     }
@@ -171,9 +191,7 @@ function sobrevivientes(largoo, input_array, ouput_array) {
     i = i - i;
     while (i <= largoo) {
         if (input_array[i].estado == "vivo") {
-            ouput_array.push(input_array[i])
-            // if (input_array[i].color == "blanco") {
-            // }
+            ouput_array.push(input_array[i]) //los sobrevivientes
         }
         else {
             arrayM = base_de_datos[a].muertes;
@@ -183,9 +201,12 @@ function sobrevivientes(largoo, input_array, ouput_array) {
     }
 }
 
-function hijos1(ouput_array) {
+//simula la reprodución por medio de las leyes de Mendel
+function hijos(ouput_array) {
     i = i - i;
 
+    //Nhijos_cal calcula el numero de hijos que se van a crear
+    //en base al numero de machos y hembras
     Nhijos_cal = machos.length - hembras.length;
 
     if (Nhijos_cal <= 0) {
@@ -228,6 +249,7 @@ function hijos1(ouput_array) {
     }
 }
 
+//ciclo de la primera genración con los individuos puestos por el usuario
 function ciclo1(largoo, input_array, array_1ouput_2input, ouput_array2) {
     i = i - i;
     estado(largoo, input_array)
@@ -245,25 +267,22 @@ function ciclo1(largoo, input_array, array_1ouput_2input, ouput_array2) {
     machos = base_de_datos[0].machos = array_1ouput_2input.filter(element => element.genero === "macho");
     hembras = base_de_datos[0].hembras = array_1ouput_2input.filter(element => element.genero === "hembra");
 
-    hijos1(ouput_array2)
+    hijos(ouput_array2)
 
     largoo1 = ouput_array2.length - 1;
     ouput_arrayy2 = ouput_array2;
     generación1 = array_1ouput_2input;
 }
 
+//ciclo del resto de las generaciones
 function ciclo(generacion, hijos_generacion) {
     // revisar codigo no nesario en el ciclo de aqui
     estado(largoo1, ouput_arrayy2)
     mutación(largoo1, ouput_arrayy2)
 
+    //ouput_arrayy2 son los hijos no definidos(sin genero o estado) de la generacion anterior
+
     ouput_arrayy2.forEach(element => {
-        text = String(element.vida);
-        text_id = text.charAt(1);
-        textF = text.charAt(0);
-        if (text_id < 5) {
-            element.vida = parseInt(textF + "0");
-        }
         element.vida -= 5;
         element.comida -= 1;
 
@@ -287,7 +306,7 @@ function ciclo(generacion, hijos_generacion) {
     machos = base_de_datos[a].machos = generacion.filter(element => element.genero === "macho");
     hembras = base_de_datos[a].hembras = generacion.filter(element => element.genero === "hembra");
 
-    hijos1(hijos_generacion)
+    hijos(hijos_generacion)
 
     largoo1 = hijos_generacion.length - 1;
     ouput_arrayy2 = hijos_generacion;
@@ -298,6 +317,7 @@ a = 0;
 var generaciones;
 var array_secreto = [];
 
+//ejecuta el programa
 function Crear_osos() {
     a = 1; //a es la variable iterativa que se usa para el ciclo, sabiendo que ciclo
     //son todos los ciclos despues del ciclo inicial "ciclo1". 
@@ -373,6 +393,7 @@ function Crear_osos() {
 // }
 
 
+//mapea los datos para la grafica
 var etiqueta_muerto = [], etiqueta_vivo = [], etiqueta_macho = [], etiqueta_hembra = [], etiqueta_mutación = [], etiqueta_sobreviviente = [];
 function etiquetas() {
     nombres()
@@ -394,19 +415,7 @@ function nombres() {
     }
 }
 
-
-// IMPROTANTE VERIFICAR SI LA MECANICA DE AÑOS SI FUCIONA BIEN, HAY UN ERROR EN LA GENERACIÓN 1
-// var etiqueta_repetido = [];
-// function nuemero_de_repetidos() {
-//     i = 0;
-//     while (i <= veses - 1) {
-//         NDR = base_de_datos[i].generacion.length // (NDR) Nuemero_De_Muertes 
-//         etiqueta_repetido.push(NDR);
-//         i++;
-//     }
-// }
-
-
+//da color a la grafica
 var colorLife = "rgb(154, 205, 56)";
 var colorMud = "rgb(154, 205, 56)";
 var color_DEHT = "#FA6484";
@@ -415,8 +424,8 @@ var color_macho = "#5d9b9b";
 var color_negro = "#7E4231";
 
 
+//crea la grafica con dataset
 function grafica() {
-    const labels = etiqueta_generación;
     const dataset = {
         labels: etiqueta_generación,
         datasets: [
@@ -467,9 +476,9 @@ function grafica() {
         data:
             dataset,
         options: {
-            interactive: true,
-            animation: true,
-            responsive: true,
+            // interactive: true,
+            // animation: true,
+            // responsive: true,
             scales: {
                 y: {
                     beginAtZero: true
