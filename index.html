@@ -1,38 +1,43 @@
 <!DOCTYPE html />
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>mutación</title>
+    <!-- importar libreria  -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
     <meta name="viewport" content="width=device-width, inical-scale=1.0">
     <link rel="stylesheet" href="./style.css">
 </head>
+
 <body>
-    <form action="">
-        <label for="veses">
-            <span>¿cuantas generacionses quieres?</span>
-            <input type="text" id="veses" placeholder="numero de generacionses" required />
+    <div class="contenedor" id="contenedor">
+        <!-- fomularios -->
+        <form action="">
+            <label for="veses">
+                <span>¿cuantas generacionses quieres?</span>
+                <input type="text" id="veses" placeholder="numero de generacionses" required />
+            </label>
+            <br>
+            <label for="individuos">
+                <span>¿Con cuantos individuos quieres comenzar el experimento?</span>
+                <input type="text" id="individuos" placeholder="numero inicial de individuos" required />
+            </label>
+            <br>
+        </form>
+        <canvas id="grafica" width="500" height="500"></canvas>
+        <label for="btn" class="text">
+            <span>muestra el avance evolutivo generación a generación</span>
+            <button id="btn">¿comenzar el experimento?</button>
         </label>
-        <br>
-        <label for="individuos">
-            <span>¿Con cuantos individuos quieres comenzar el experimento?</span>
-            <input type="text" id="individuos" placeholder="numero inicial de individuos" required />
-        </label>
-        <br>
-    </form>
-    <label for="make">
-        <span>generar individous y sus generaraciones</span>
-        <button id="make">generar</button>
-    </label>
-    <br>
-    <label for="btn">
-        <span>muestra el avance evolutivo generación a generación</span>
-    <button id="btn">¿comenzar el experimento?</button>
-    </label>
-    <canvas id="grafica" width="500" height="500"></canvas>
-    <script src="./mutación.js"></script>
+        <script src="./mutación.js"></script>
     </div>
-    </body>
+    <picture>
+        <source srcset="./assets/Diagrama.png" type="image/png">
+        <img src="./assets/Diagrama.png" alt="Diagrama de flujo" />
+    </picture>
+</body>
+
 </html>
