@@ -1,3 +1,4 @@
+// ¡MUY IMPORTANTE HACER UNA GRAFICA MAS DE NATALIDA!
 var VESES = document.getElementById("veses");
 //VESES  = generaciones a generar
 var input_individuos_iniciales = document.getElementById("individuos");
@@ -63,6 +64,25 @@ class oso {
         this.color = color;
     }
 }
+
+// class animal {
+//     constructor(especie, genero, sonido, edad, estado) {
+//         this.especie = especie;
+//         this.genero = genero;
+//         this.sonido = sonido;
+//         this.edad = edad;
+//         this.vivo = estado;
+//         this.tocar = flase;
+//     }
+//     function () {
+//         if (this.tocar == true) {
+//             return this.sonido;
+//         } else {
+//             return "no has consetido al gato";
+//         }
+//     }
+// }
+
 
 //determina años del oso por medio del siguiente algortimo y su variable aleatoria vida 
 function años(vida) {
@@ -195,7 +215,7 @@ function sobrevivientes(largoo, input_array, ouput_array) {
         }
         else {
             arrayM = base_de_datos[a].muertes;
-            arrayM.push(input_array[i]);
+            arrayM.push(input_array[i].estado);
         }
         i++;
     }
@@ -339,38 +359,7 @@ function Crear_osos() {
         a++;
     }
 
-    i = 0;
-    e = 0;
 
-    while (i <= largo_final) {
-        array1 = base_de_datos[i].generacion;
-        array2 = base_de_datos[i].osos_blancos;
-        while (e < array1.length) {
-            individuo = array1[e].color;
-            if (individuo == "blanco") {
-                array2.push(individuo)
-            }
-            e++;
-        }
-        e = 0;
-        i++;
-    }
-
-    i = 0;
-    e = 0;
-    while (i <= largo_final) {
-        array1 = base_de_datos[i].generacion;
-        array2 = base_de_datos[i].osos_negros;
-        while (e < array1.length) {
-            individuo = array1[e].color;
-            if (individuo == "negro") {
-                array2.push(individuo)
-            }
-            e++;
-        }
-        e = 0;
-        i++;
-    }
     // largo = document.getElementById("contenedor");
     // largo.style.margin-bottom = "2rem";
     graficar();
@@ -492,5 +481,3 @@ function graficar() {
     etiquetas()
     grafica()
 }
-
-
