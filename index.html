@@ -12,11 +12,11 @@
 </head>
 
 <body>
-    <div class="contenedor" id="contenedor">
+    <div class="totalGeneraciones" id="contenedor">
         <form action="">
             <label for="veses">
                 <span>¿cuantas generacionses quieres?</span>
-                <input type="text" id="veses" placeholder="numero de generacionses" required />
+                <input type="text" id="totalGeneraciones" placeholder="numero de generacionses" required />
             </label>
             <br>
             <label for="individuos">
@@ -28,7 +28,7 @@
         <canvas id="grafica" width="500" height="500"></canvas>
         <label for="btn" class="text">
             <span>muestra el avance evolutivo generación a generación</span>
-            <button id="btn">¿comenzar el experimento?</button>
+            <button id="btn" onclick="Crear_osos()">¿comenzar el experimento?</button>
         </label>
         <script src="./mutación.js"></script>
     </div>

@@ -1,14 +1,21 @@
 // ¡MUY IMPORTANTE HACER UNA GRAFICA MAS DE NATALIDA!
-var VESES = document.getElementById("veses");
+
+//***mejorar la nomenclatura la que se nombran las variables.
+//***Pasar las variables a let o const respectivamente.
+//***Analizar función.
+//***Cambiar el while.
+
+const totalGeneraciones = document.getElementById("totalGeneraciones"); 
 //VESES  = generaciones a generar
-var input_individuos_iniciales = document.getElementById("individuos");
+const initialIndividuos = document.getElementById("individuos");
 
 var boton = document.getElementById("btn");
-boton.addEventListener("click", Crear_osos, true);
+boton.addEventListener("click", Crear_osos, true); //*onclick
 
-var base_de_datos = [];
+var base_de_datos = []; //*const
 var veses;
 
+//**analizar estructura de la clase
 //IMPORTANTE
 class ADA { //array_de_arrays (ADA) 
     constructor() {
@@ -22,16 +29,18 @@ class ADA { //array_de_arrays (ADA)
     }
 }
 
+//**mejorar
 //cear arrays con la clase ADA 
 function array_de_arrays_de_arrays() {
-    i = a;
-    veses = parseInt(VESES.value);
-    while (i <= veses) {
-        array = new ADA();
-        base_de_datos.push(array);
+    i = a; //*que es 'a'
+    veses = parseInt(VESES.value); //*VESES
+    while (i <= veses) { //*for?
+        array = new ADA(); 
+        base_de_datos.push(array); //*best method?
         i++;
     }
 }
+
 
 
 var oso1;
@@ -47,9 +56,11 @@ function individuos_iniciales() {
     }
 }
 
-class oso {
+//***cambiar todos los strings de las clases por 1 y 0 para mejorar el rendimiento
+
+class oso { //**ver opciones de Math.floor((Math.random)) y hacer función
     constructor(color) {
-        this.muerte = Math.floor((Math.random() * 100) + 1);
+        this.muerte = Math.floor((Math.random() * 100) + 1); 
         this.mutación = Math.floor((Math.random() * 100) + 1);
         this.vida = Math.floor((Math.random() * 35) + 1);
         años(this.vida);
@@ -65,27 +76,9 @@ class oso {
     }
 }
 
-// class animal {
-//     constructor(especie, genero, sonido, edad, estado) {
-//         this.especie = especie;
-//         this.genero = genero;
-//         this.sonido = sonido;
-//         this.edad = edad;
-//         this.vivo = estado;
-//         this.tocar = flase;
-//     }
-//     function () {
-//         if (this.tocar == true) {
-//             return this.sonido;
-//         } else {
-//             return "no has consetido al gato";
-//         }
-//     }
-// }
-
 
 //determina años del oso por medio del siguiente algortimo y su variable aleatoria vida 
-function años(vida) {
+function años(vida) { //**analizar función
     if (vida < 15) {
         vida = 15;
     }
@@ -106,6 +99,10 @@ function años(vida) {
                 vida = 20;
             }
         }
+        //*corregir error
+        //ERROR porque osos deben quedar en multiplos de 5
+        // y quedan en -1, 3, 17; 
+
         // console.log("before" + vida);
         text = String(vida); //codigo para evitar errores al quitar de 5 en 5
         text_id = text.charAt(1);
@@ -119,8 +116,7 @@ function años(vida) {
         // console.log("after" + vida); // funciona bien
     }
 }
-//ERROR porque osos deben quedar en multiplos de 5
-// y quedan en -1, 3, 17; erro de asignación linea 54
+
 
 function make() {
     array_de_arrays_de_arrays();
@@ -136,10 +132,10 @@ function estado(largoo, input_array) {
     i = i - i;
     while (i <= largoo) {
         if (input_array[i].muerte >= 50) {
-            input_array[i].estado = "vivo"
+            input_array[i].estado = "vivo" //*1
         }
         else {
-            input_array[i].estado = "muerto"
+            input_array[i].estado = "muerto" //*0
         }
         i++;
     }
@@ -165,13 +161,13 @@ function mutación(largoo, input_array) {
     }
 }
 
-// var focas = 5000;
+// var focas = 5000; //debido a la dificultad de la caza no puse un limite de focas
 //determina si la caza de un oso va hacer extiosa por medio del siguiente  
 //algortimo y su pelaje siendo el blanco el mas apto
 function caza(largoo, input_array) {
     i = i - i;
     // focas = input_array.length;
-    while (i < largoo) { //&& focas > 0 //debido a la dificultad de la caza no puse un limite de focas
+    while (i < largoo) {
         cazador = input_array[i];      
         if (cazador.color == "blanco") {
             probalidad = Math.floor((Math.random() * 2) + 1);
@@ -181,7 +177,7 @@ function caza(largoo, input_array) {
         }
         if (probalidad == 1) {
             // focas--;
-            cazador.comida += 2;
+            cazador.comida += 1;
             // console.log("caza exitosa");
         }
         i++;
