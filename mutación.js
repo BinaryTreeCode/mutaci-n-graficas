@@ -5,53 +5,50 @@
 //***Analizar función.
 //***Cambiar el while.
 
-const totalGeneraciones = document.getElementById("totalGeneraciones"); 
-//VESES  = generaciones a generar
-const initialIndividuos = document.getElementById("individuos");
+const totalGeneracionesInput = document.getElementById("totalGeneraciones"); 
+//totalGeneracionesInput  = generaciones a generar
 
-var boton = document.getElementById("btn");
-boton.addEventListener("click", Crear_osos, true); //*onclick
+const initialOsosInput = document.getElementById("individuos");
 
-var base_de_datos = []; //*const
-var veses;
+const dataBase = []; //*const
+let totalGeneraciones; //*scope
 
 //**analizar estructura de la clase
 //IMPORTANTE
-class ADA { //array_de_arrays (ADA) 
+class dataGeneracion   { 
     constructor() {
-        this.generacion = []; /*hacer un toltal de todos los osos para hacer debugging*/
-        this.osos_blancos = [];
-        this.osos_negros = []
-        this.hijos = [];
-        this.muertes = [];
-        this.machos = [];
-        this.hembras = [];
+        this.osos = []; /*hacer un toltal de todos los osos para hacer debugging*/
+        this.ososBlancos = [];
+        this.ososNegros = []
+        this.ososHijos = [];
+        this.ososMuertos = [];
+        this.ososMacho = [];
+        this.ososHembra = [];
     }
 }
 
+
 //**mejorar
-//cear arrays con la clase ADA 
-function array_de_arrays_de_arrays() {
+//cear arrays con la clase dataGeneracion   
+function createDataStructure() {
     i = a; //*que es 'a'
-    veses = parseInt(VESES.value); //*VESES
-    while (i <= veses) { //*for?
-        array = new ADA(); 
-        base_de_datos.push(array); //*best method?
+    totalGeneraciones = parseInt(totalGeneracionesInput.value); //*totalGeneracionesInput
+    while (i <= totalGeneraciones) { //*for?
+        dataStructure = new dataGeneracion(); 
+        dataBase.push(dataStructure); //*best method?
         i++;
     }
 }
 
+const ososGeneracion0 = []
 
-
-var oso1;
-var individuos = [];
-//cear individuos_iniciales con la clase oso 
-function individuos_iniciales() {
+//cear ososIniciales con la clase oso 
+function ososIniciales() {
     i = 1;
-    var numero = parseInt(input_individuos_iniciales.value);
-    while (i <= numero) {
-        oso1 = new oso(true);
-        individuos.push(oso1)
+    var initialOsos = parseInt(initialOsosInput.value);
+    while (i <= initialOsos) {
+        let osoStats = new oso(true);
+        ososGeneracion0.push(osoStats)
         i++;
     }
 }
@@ -60,82 +57,75 @@ function individuos_iniciales() {
 
 class oso { //**ver opciones de Math.floor((Math.random)) y hacer función
     constructor(color) {
-        this.muerte = Math.floor((Math.random() * 100) + 1); 
-        this.mutación = Math.floor((Math.random() * 100) + 1);
-        this.vida = Math.floor((Math.random() * 35) + 1);
-        años(this.vida);
-        // this.vida = años(this.vida); is NAN
+        this.probabilityMuerte = Math.floor((Math.random() * 100) + 1); 
+        this.probabilityMutacion = Math.floor((Math.random() * 100) + 1);
+        this.yearsLife = Math.floor((Math.random() * 35) + 1);
+        setYearsLife(this.yearsLife);
+        // this.yearsLife = años(this.yearsLife); is NAN
         if (Math.floor((Math.random() * 2) + 1) == 1) {
             this.genero = "macho";
         } else {
             this.genero = "hembra";
         }
-        this.estado = true;
-        this.comida = 2;
+        this.isLife = true;
+        this.comidaCount = 2;
         this.color = color;
     }
 }
 
 
 //determina años del oso por medio del siguiente algortimo y su variable aleatoria vida 
-function años(vida) { //**analizar función
-    if (vida < 15) {
-        vida = 15;
+function setYearsLife(lifeCount) { //**analizar función
+    if (lifeCount < 15) {
+        lifeCount = 15;
     }
     else {
-        if (vida > 30) {
+        if (lifeCount > 30) {
             if ((Math.floor((Math.random() * 100) + 1)) > 50) {
-                vida = vida;
-            }
+                lifeCount = lifeCount;
+            }   
             else {
-                vida = 30;
+                lifeCount = 30;
             }
         }
-        if (vida < 15) {
+        if (lifeCount < 15) {
             if ((Math.floor((Math.random() * 100) + 1)) < 50) {
-                vida = 15;
+                lifeCount = 15;
             }
             else {
-                vida = 20;
+                lifeCount = 20;
             }
         }
         //*corregir error
         //ERROR porque osos deben quedar en multiplos de 5
         // y quedan en -1, 3, 17; 
 
-        // console.log("before" + vida);
-        text = String(vida); //codigo para evitar errores al quitar de 5 en 5
-        text_id = text.charAt(1);
-        textF = text.charAt(0);
-        if (text_id < 5) {
-            vida = parseInt(textF + "0");
+        // console.log("before" + vida); 
+        lifeString = String(lifeCount); //codigo para evitar errores al quitar de 5 en 5
+        lifeStringN1 = lifeString.charAt(1);
+        lifeStringN2 = lifeString.charAt(0);
+        if (lifeStringN1 < 5) {
+            lifeCount = parseInt(lifeStringN1 + "0");
         }
         else {
-            vida = parseInt(textF + "5");
+            lifeCount = parseInt(lifeStringN2 + "5");
         }
         // console.log("after" + vida); // funciona bien
     }
 }
 
 
-function make() {
-    array_de_arrays_de_arrays();
-    individuos_iniciales();
-    console.log("generate");
-}
-
-var largoo1, ouput_arrayy2;
 
 //determina si el oso esta vivo o muerto por medio del siguiente algortimo 
 //y su variable aleatoria muerte 
-function estado(largoo, input_array) {
-    i = i - i;
-    while (i <= largoo) {
-        if (input_array[i].muerte >= 50) {
-            input_array[i].estado = "vivo" //*1
+function setIsLife(length, osos) { 
+    i = i - i; 
+    while (i <= length) {
+        if (osos[i].probabilityMuerte >= 50) {
+            osos[i].isLife = "vivo" //*1
         }
         else {
-            input_array[i].estado = "muerto" //*0
+            osos[i].isLife = "muerto" //*0
         }
         i++;
     }
@@ -143,15 +133,15 @@ function estado(largoo, input_array) {
 
 //determina si el oso va a mutar por medio del siguiente algortimo 
 //y su variable aleatoria mutación 
-function mutación(largoo, input_array) {
+function ismutante(length, osos) {
     i = i - i;
-    while (i <= largoo) {
-        if (input_array[i].color == "negro" || input_array[i].color == true) {
-            if (input_array[0 + i].estado === "vivo" && input_array[0 + i].mutación <= 20) {
-                input_array[i].color = "blanco"
+    while (i <= length) {
+        if (osos[i].color == "negro" || osos[i].color == true) {
+            if (osos[0 + i].isLife === "vivo" && osos[0 + i].probabilityMutacion <= 20) {
+                osos[i].color = "blanco"
             }
             else {
-                input_array[i].color = "negro"
+                osos[i].color = "negro"
             }
         }
         else {
@@ -164,20 +154,20 @@ function mutación(largoo, input_array) {
 // var focas = 5000; //debido a la dificultad de la caza no puse un limite de focas
 //determina si la caza de un oso va hacer extiosa por medio del siguiente  
 //algortimo y su pelaje siendo el blanco el mas apto
-function caza(largoo, input_array) {
+function iscaza(length, osos) {
     i = i - i;
     // focas = input_array.length;
-    while (i < largoo) {
-        cazador = input_array[i];      
+    while (i < length) {
+        cazador = osos[i];      
         if (cazador.color == "blanco") {
-            probalidad = Math.floor((Math.random() * 2) + 1);
+            probabilitycaza = Math.floor((Math.random() * 2) + 1);
         }
         else {
-            probalidad = Math.floor((Math.random() * 10) + 1);
+            probabilitycaza = Math.floor((Math.random() * 10) + 1);
         }
-        if (probalidad == 1) {
+        if (probabilitycaza == 1) {
             // focas--;
-            cazador.comida += 1;
+            cazador.comidaCount += 1;
             // console.log("caza exitosa");
         }
         i++;
@@ -186,143 +176,145 @@ function caza(largoo, input_array) {
 
 var arrayM; //arrayM array para registrar las muertes;
 //determina si el oso esta vivo o muerto por medio del siguiente algortimo 
-function sobrevivientes(largoo, input_array, ouput_array) {
+function getOsosVivos(length, osos, ososVivos) {
     // console.log(input_array);
     i = i - i;
-    while (i <= largoo) {
-        if (input_array[i].vida <= 0) { //|| input_array[i].comida <= 0
-            input_array[i].estado = "muerto"
+    while (i <= length) {
+        if (osos[i].yearsLife <= 0) { //|| input_array[i].comidaCount <= 0
+            osos[i].isLife = "muerto"
             // console.log(a + " muerte natural");
         }
-        else if (input_array[i].comida <= 0) {
-            input_array[i].estado = "muerto"
+        else if (osos[i].comidaCount <= 0) {
+            osos[i].isLife = "muerto"
             // console.log(a + " muerte por hambre");
         }
-        else if (input_array[i].estado == "muerto") {
+        else if (osos[i].isLife == "muerto") {
             // console.log(a + " muerte");
         }
         i++;
     }
 
     i = i - i;
-    while (i <= largoo) {
-        if (input_array[i].estado == "vivo") {
-            ouput_array.push(input_array[i]) //los sobrevivientes
+    while (i <= length) {
+        if (osos[i].isLife == "vivo") {
+            ososVivos.push(osos[i]) //los sobrevivientes
         }
         else {
-            arrayM = base_de_datos[a].muertes;
-            arrayM.push(input_array[i].estado);
+            arrayM = dataBase[a].ososMuertos;
+            arrayM.push(osos[i].isLife);
         }
         i++;
     }
 }
 
 //simula la reprodución por medio de las leyes de Mendel
-function hijos(ouput_array) {
+function createHijos(hijos) {
     i = i - i;
 
-    //Nhijos_cal calcula el numero de hijos que se van a crear
+    //calculoHijos calcula el numero de hijos que se van a crear
     //en base al numero de machos y hembras
-    Nhijos_cal = machos.length - hembras.length;
+    calculoHijos = machos.length - hembras.length;
 
-    if (Nhijos_cal <= 0) {
-        Nhijos = machos.length;
+    if (calculoHijos <= 0) {
+        numeroHijos = machos.length;
     } else {
-        Nhijos = hembras.length;
+        numeroHijos = hembras.length;
     }
-    while (i <= Nhijos - 1) {
+    while (i <= numeroHijos - 1) {
         macho = machos[i];
         hembra = hembras[i];
-        aleatoriedad = Math.floor((Math.random() * 100) + 1)
+        probabilityMutacion = Math.floor((Math.random() * 100) + 1)
 
         if (macho.color == hembra.color) {
-            if (macho.color == "blanco" && 20 <= aleatoriedad) {
-                hijoB = new oso("blanco");
-                ouput_array.push(hijoB)
-                hijoB = new oso("blanco");
-                ouput_array.push(hijoB)
-            } else if (macho.color == "negro" && 20 <= aleatoriedad) {
-                hijoN = new oso("negro");
-                ouput_array.push(hijoN);
-                hijoN = new oso("negro");
-                ouput_array.push(hijoN);
+            if (macho.color == "blanco" && 20 <= probabilityMutacion) {
+                hijoBlanco = new oso("blanco");
+                hijos.push(hijoBlanco)
+                hijoBlanco = new oso("blanco");
+                hijos.push(hijoBlanco)
+            } else if (macho.color == "negro" && 20 <= probabilityMutacion) {
+                hijoNegro = new oso("negro");
+                hijos.push(hijoNegro);
+                hijoNegro = new oso("negro");
+                hijos.push(hijoNegro);
             }
         } else {
-            if (50 < aleatoriedad) {
-                hijoB = new oso("blanco");
-                ouput_array.push(hijoB)
-                hijoB = new oso("blanco");
-                ouput_array.push(hijoB)
+            if (50 < probabilityMutacion) {
+                hijoBlanco = new oso("blanco");
+                hijos.push(hijoBlanco)
+                hijoBlanco = new oso("blanco");
+                hijos.push(hijoBlanco)
             }
             else {
-                hijoN = new oso("negro", 0);
-                ouput_array.push(hijoN);
-                hijoN = new oso("negro", 0);
-                ouput_array.push(hijoN);
+                hijoNegro = new oso("negro", 0);
+                hijos.push(hijoNegro);
+                hijoNegro = new oso("negro", 0);
+                hijos.push(hijoNegro);
             }
         }
         i++;
     }
 }
 
+var largoo1, ouput_arrayy2;
+
+
 //ciclo de la primera genración con los individuos puestos por el usuario
-function ciclo1(largoo, input_array, array_1ouput_2input, ouput_array2) {
+function ciclo0(length, osos, ososVivos, ososHijos) {
     i = i - i;
-    estado(largoo, input_array)
-    mutación(largoo, input_array)
+    setIsLife(length, osos)
+    ismutante(length, osos)
 
-    input_array.forEach(element => {
-        element.vida -= 5;
-        element.comida -= 1;
+    osos.forEach(element => {
+        element.yearsLife -= 5;
+        element.comidaCount -= 1;
     });
-    caza(largoo, input_array)
+    iscaza(length, osos)
 
-    sobrevivientes(largoo, input_array, array_1ouput_2input)
-    largoo2 = array_1ouput_2input.length - 1;
+    getOsosVivos(length, osos, ososVivos)
+    lengthOsosVivos = ososVivos.length - 1;
 
-    machos = base_de_datos[0].machos = array_1ouput_2input.filter(element => element.genero === "macho");
-    hembras = base_de_datos[0].hembras = array_1ouput_2input.filter(element => element.genero === "hembra");
+    machos = dataBase[0].ososMacho = ososVivos.filter(element => element.genero === "macho");
+    hembras = dataBase[0].ososHembra = ososVivos.filter(element => element.genero === "hembra");
 
-    hijos(ouput_array2)
+    createHijos(ososHijos)
 
-    largoo1 = ouput_array2.length - 1;
-    ouput_arrayy2 = ouput_array2;
-    generación1 = array_1ouput_2input;
+    largoo1 = ososHijos.length - 1;
+    ouput_arrayy2 = ososHijos;
 }
 
 //ciclo del resto de las generaciones
 function ciclo(generacion, hijos_generacion) {
     // revisar codigo no nesario en el ciclo de aqui
-    estado(largoo1, ouput_arrayy2)
-    mutación(largoo1, ouput_arrayy2)
+    setIsLife(largoo1, ouput_arrayy2)
+    ismutante(largoo1, ouput_arrayy2)
 
     //ouput_arrayy2 son los hijos no definidos(sin genero o estado) de la generacion anterior
 
-    ouput_arrayy2.forEach(element => {
-        element.vida -= 5;
-        element.comida -= 1;
+    ouput_arrayy2.forEach(oso => {
+        oso.yearsLife -= 5;
+        oso.comidaCount -= 1;
 
-        if (element.vida <= 0) {
-            element.estado = "muerto"
+        if (oso.yearsLife <= 0) {
+            oso.isLife = "muerto"
         }
     });
 
-    caza(largoo1, ouput_arrayy2)
+    iscaza(largoo1, ouput_arrayy2)
 
-    sobrevivientes(largoo1, ouput_arrayy2, generacion)
+    getOsosVivos(largoo1, ouput_arrayy2, generacion)
 
-    base_de_datos[a - 1].generacion.forEach(element => {
+    dataBase[a - 1].osos.forEach(element => {
         generacion.push(element)
     });
 
 
     //HA AQUI
-    largoo2 = generacion.length - 1;
+    lengthOsosVivos = generacion.length - 1;
 
-    machos = base_de_datos[a].machos = generacion.filter(element => element.genero === "macho");
-    hembras = base_de_datos[a].hembras = generacion.filter(element => element.genero === "hembra");
+    machos = dataBase[a].ososMacho = generacion.filter(element => element.genero === "macho");
+    hembras = dataBase[a].ososHembra = generacion.filter(element => element.genero === "hembra");
 
-    hijos(hijos_generacion)
+    createHijos(hijos_generacion)
 
     largoo1 = hijos_generacion.length - 1;
     ouput_arrayy2 = hijos_generacion;
@@ -337,21 +329,22 @@ var array_secreto = [];
 function Crear_osos() {
     a = 1; //a es la variable iterativa que se usa para el ciclo, sabiendo que ciclo
     //son todos los ciclos despues del ciclo inicial "ciclo1". 
-    make()
+    createDataStructure();
+    ososIniciales();
     i = 0
 
-    largo = individuos.length - 1;
-    largo_final = base_de_datos.length - 1;
-    generacion1 = base_de_datos[0].generacion;
-    hijos_generacion1 = base_de_datos[0].hijos;
-    mutantes1 = base_de_datos[0].mutantes;
-    muertes1 = base_de_datos[0].muertes;
+    largo = ososGeneracion0.length - 1;
+    largo_final = dataBase.length - 1;
+    generacion1 = dataBase[0].osos;
+    hijos_generacion1 = dataBase[0].ososHijos;
+    mutantes1 = dataBase[0].mutantes;
+    muertes1 = dataBase[0].ososMuertos;
 
-    ciclo1(largo, individuos, generacion1, hijos_generacion1)
+    ciclo0(largo, ososGeneracion0, generacion1, hijos_generacion1)
 
     a = a;
     while (a <= largo_final) {
-        ciclo(base_de_datos[a].generacion, base_de_datos[a].hijos)
+        ciclo(dataBase[a].osos, dataBase[a].ososHijos)
         a++;
     }
 
@@ -363,7 +356,7 @@ function Crear_osos() {
 
 // function mapeo(arrayX, condicion) {
 //     while (i <= largo_final) {        
-//         array1 = base_de_datos[i].generacion;
+//         array1 = base_de_datos[i].osos;
 //         array2 = base_de_datos[i].arrayX; //usar eval arraX como variable
 //         while (e < array1.length) {
 //             individuo = array1[e].color;
@@ -382,18 +375,18 @@ function Crear_osos() {
 var etiqueta_muerto = [], etiqueta_vivo = [], etiqueta_macho = [], etiqueta_hembra = [], etiqueta_mutación = [], etiqueta_sobreviviente = [];
 function etiquetas() {
     nombres()
-    etiqueta_muerto = base_de_datos.map(element => element.muertes.length);
-    etiqueta_vivo = base_de_datos.map(element => element.generacion.length);
-    etiqueta_macho = base_de_datos.map(element => element.machos.length);
-    etiqueta_hembra = base_de_datos.map(element => element.hembras.length);
-    etiqueta_blanco = base_de_datos.map(element => element.osos_blancos.length);
-    etiqueta_negro = base_de_datos.map(element => element.osos_negros.length);
+    etiqueta_muerto = dataBase.map(element => element.ososMuertos.length);
+    etiqueta_vivo = dataBase.map(element => element.osos.length);
+    etiqueta_macho = dataBase.map(element => element.ososMacho.length);
+    etiqueta_hembra = dataBase.map(element => element.ososHembra.length);
+    etiqueta_blanco = dataBase.map(element => element.ososBlancos.length);
+    etiqueta_negro = dataBase.map(element => element.ososNegros.length);
 }
 
 var etiqueta_generación = [];
 function nombres() {
     i = 1;
-    IDGenración = parseInt(VESES.value);
+    IDGenración = parseInt(totalGeneracionesInput.value);
     while (i <= IDGenración) {
         etiqueta_generación.push(i);
         i++;
