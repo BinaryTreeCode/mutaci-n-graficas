@@ -5,17 +5,17 @@
 //***Analizar función.
 //***Cambiar el while.
 
-const totalGeneracionesInput = document.getElementById("totalGeneraciones"); 
+const totalGeneracionesInput = document.getElementById("totalGeneraciones");
 //totalGeneracionesInput  = generaciones a generar
 
 const initialOsosInput = document.getElementById("individuos");
 
-const dataBase = []; //*const
+const dataBase = [];
 let totalGeneraciones; //*scope
 
 //**analizar estructura de la clase
 //IMPORTANTE
-class dataGeneracion   { 
+class dataGeneracion {
     constructor() {
         this.osos = []; /*hacer un toltal de todos los osos para hacer debugging*/
         this.ososBlancos = [];
@@ -34,7 +34,7 @@ function createDataStructure() {
     i = a; //*que es 'a'
     totalGeneraciones = parseInt(totalGeneracionesInput.value); //*totalGeneracionesInput
     while (i <= totalGeneraciones) { //*for?
-        dataStructure = new dataGeneracion(); 
+        dataStructure = new dataGeneracion();
         dataBase.push(dataStructure); //*best method?
         i++;
     }
@@ -57,12 +57,10 @@ function ososIniciales() {
 
 class oso { //**ver opciones de Math.floor((Math.random)) y hacer función
     constructor(color) {
-        this.probabilityMuerte = Math.floor((Math.random() * 100) + 1); 
-        this.probabilityMutacion = Math.floor((Math.random() * 100) + 1);
-        this.yearsLife = Math.floor((Math.random() * 35) + 1);
-        setYearsLife(this.yearsLife);
-        // this.yearsLife = años(this.yearsLife); is NAN
-        if (Math.floor((Math.random() * 2) + 1) == 1) {
+        this.probabilityMuerte = getRandomNumber();
+        this.probabilityMutacion = getRandomNumber();
+        this.yearsLife = ((Math.round(Math.random() * 4 + 3)) * 5);
+        if (Math.round(Math.random()) == 1) {
             this.genero = "macho";
         } else {
             this.genero = "hembra";
@@ -73,55 +71,17 @@ class oso { //**ver opciones de Math.floor((Math.random)) y hacer función
     }
 }
 
-
-//determina años del oso por medio del siguiente algortimo y su variable aleatoria vida 
-function setYearsLife(lifeCount) { //**analizar función
-    if (lifeCount < 15) {
-        lifeCount = 15;
-    }
-    else {
-        if (lifeCount > 30) {
-            if ((Math.floor((Math.random() * 100) + 1)) > 50) {
-                lifeCount = lifeCount;
-            }   
-            else {
-                lifeCount = 30;
-            }
-        }
-        if (lifeCount < 15) {
-            if ((Math.floor((Math.random() * 100) + 1)) < 50) {
-                lifeCount = 15;
-            }
-            else {
-                lifeCount = 20;
-            }
-        }
-        //*corregir error
-        //ERROR porque osos deben quedar en multiplos de 5
-        // y quedan en -1, 3, 17; 
-
-        // console.log("before" + vida); 
-        lifeString = String(lifeCount); //codigo para evitar errores al quitar de 5 en 5
-        lifeStringN1 = lifeString.charAt(1);
-        lifeStringN2 = lifeString.charAt(0);
-        if (lifeStringN1 < 5) {
-            lifeCount = parseInt(lifeStringN1 + "0");
-        }
-        else {
-            lifeCount = parseInt(lifeStringN2 + "5");
-        }
-        // console.log("after" + vida); // funciona bien
-    }
+//decidi usar  decimaler ya que es la forma natural de Math.random() y de la probabilidad en general
+function getRandomNumber() { 
+   return Math.round(Math.random() * 100) / 100
 }
-
-
 
 //determina si el oso esta vivo o muerto por medio del siguiente algortimo 
 //y su variable aleatoria muerte 
-function setIsLife(length, osos) { 
-    i = i - i; 
+function setIsLife(length, osos) {
+    i = i - i;
     while (i <= length) {
-        if (osos[i].probabilityMuerte >= 50) {
+        if (osos[i].probabilityMuerte >= 0.50) {
             osos[i].isLife = "vivo" //*1
         }
         else {
@@ -137,7 +97,7 @@ function ismutante(length, osos) {
     i = i - i;
     while (i <= length) {
         if (osos[i].color == "negro" || osos[i].color == true) {
-            if (osos[0 + i].isLife === "vivo" && osos[0 + i].probabilityMutacion <= 20) {
+            if (osos[0 + i].isLife === "vivo" && osos[0 + i].probabilityMutacion <= 0.20) {
                 osos[i].color = "blanco"
             }
             else {
@@ -158,12 +118,12 @@ function iscaza(length, osos) {
     i = i - i;
     // focas = input_array.length;
     while (i < length) {
-        cazador = osos[i];      
+        cazador = osos[i];
         if (cazador.color == "blanco") {
-            probabilitycaza = Math.floor((Math.random() * 2) + 1);
+            probabilitycaza = Math.round(Math.random()); 
         }
         else {
-            probabilitycaza = Math.floor((Math.random() * 10) + 1);
+            probabilitycaza =  Math.round(Math.random() * (1 - 0.1) + 0.1 * 10) / 10; //probabilidad de 1 entre 10
         }
         if (probabilitycaza == 1) {
             // focas--;
@@ -223,7 +183,7 @@ function createHijos(hijos) {
     while (i <= numeroHijos - 1) {
         macho = machos[i];
         hembra = hembras[i];
-        probabilityMutacion = Math.floor((Math.random() * 100) + 1)
+        probabilityMutacion = getRandomNumber();
 
         if (macho.color == hembra.color) {
             if (macho.color == "blanco" && 20 <= probabilityMutacion) {
@@ -352,23 +312,10 @@ function Crear_osos() {
     // largo = document.getElementById("contenedor");
     // largo.style.margin-bottom = "2rem";
     graficar();
+
+    console.log("true");
 }
 
-// function mapeo(arrayX, condicion) {
-//     while (i <= largo_final) {        
-//         array1 = base_de_datos[i].osos;
-//         array2 = base_de_datos[i].arrayX; //usar eval arraX como variable
-//         while (e < array1.length) {
-//             individuo = array1[e].color;
-//             if (individuo == condicion) {
-//                 array2.push(individuo)
-//             }
-//             e++;
-//         }
-//         e = 0;
-//         i++;
-//     }  
-// }
 
 
 //mapea los datos para la grafica
@@ -393,55 +340,60 @@ function nombres() {
     }
 }
 
-//da color a la grafica
-var colorLife = "rgb(154, 205, 56)";
-var colorMud = "rgb(154, 205, 56)";
-var color_DEHT = "#FA6484";
-var color_hembra = "#ea899a";
-var color_macho = "#5d9b9b";
-var color_negro = "#7E4231";
-
 
 //crea la grafica con dataset
 function grafica() {
+    Chart.defaults.color = '#000000';
+    Chart.defaults.font.size = 17;
+
+    const colors = {
+        vivo: 'rgb(154, 205, 56)',
+        polar: 'rgb(154, 205, 56)',
+        negro: '#7E4231',
+        macho: '#5d9b9b',
+        hembra: '#ea899a',
+        mutante: 'rgb(154, 205, 56)',
+        muerto: '#FA6484',
+    }
+
     const dataset = {
         labels: etiqueta_generación,
         datasets: [
             {
                 label: 'crecimiento poblacional total',
                 fill: false,
-                backgroundColor: colorLife,
-                borderColor: colorLife,
+                backgroundColor: colors.vivo,
+                borderColor: colors.vivo,
                 data: etiqueta_vivo,
             }, {
                 label: 'polares',
                 fill: false,
-                backgroundColor: colorMud,
-                borderColor: colorMud,
+                backgroundColor: colors.mutante,
+                borderColor: colors.mutante,
                 borderDash: [5, 5],
                 data: etiqueta_blanco,
             }, {
                 label: 'pardos',
                 fill: false,
-                backgroundColor: color_negro,
-                borderColor: color_negro,
+                backgroundColor: colors.negro,
+                borderColor: colors.negro,
                 data: etiqueta_negro,
             }, {
                 label: 'Muertes',
-                backgroundColor: color_DEHT,
-                borderColor: color_DEHT,
+                backgroundColor: colors.muerto,
+                borderColor: colors.muerto,
                 data: etiqueta_muerto,
                 fill: true,
             }, {
                 label: 'machos',
-                backgroundColor: color_macho,
-                borderColor: color_macho,
+                backgroundColor: colors.macho,
+                borderColor: colors.macho,
                 data: etiqueta_macho,
                 fill: false,
             }, {
                 label: 'hembras',
-                backgroundColor: color_hembra,
-                borderColor: color_hembra,
+                backgroundColor: colors.hembra,
+                borderColor: colors.hembra,
                 data: etiqueta_hembra,
                 fill: false,
             },
@@ -461,7 +413,7 @@ function grafica() {
                 y: {
                     beginAtZero: true
                 }
-            }
+            },
         }
     });
 }
@@ -470,3 +422,5 @@ function graficar() {
     etiquetas()
     grafica()
 }
+
+console.log(Crear_osos()); 

@@ -6,8 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>mutación</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
     <meta name="viewport" content="width=device-width, inical-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>  
     <link rel="stylesheet" href="./style.css">
 </head>
 
@@ -16,12 +16,12 @@
         <form action="">
             <label for="veses">
                 <span>¿cuantas generacionses quieres?</span>
-                <input type="text" id="totalGeneraciones" placeholder="numero de generacionses" required />
+                <input type="text" id="totalGeneraciones" placeholder="numero de generacionses" required value="25"/>
             </label>
             <br>
             <label for="individuos">
                 <span>¿Con cuantos individuos quieres comenzar el experimento?</span>
-                <input type="text" id="individuos" placeholder="numero inicial de individuos" required />
+                <input type="text" id="individuos" placeholder="numero inicial de individuos" required value="50"/>
             </label>
             <br>
         </form>
@@ -30,11 +30,11 @@
             <span>muestra el avance evolutivo generación a generación</span>
             <button id="btn" onclick="Crear_osos()">¿comenzar el experimento?</button>
         </label>
-        <script src="./mutación.js"></script>
     </div>
     <picture>
         <source srcset="./assets/Diagrama.png" type="image/png">
         <img src="./assets/Diagrama.png" alt="Diagrama de flujo" />
     </picture>
 </body>
+<script src="./mutación.js"></script>
 </html>
