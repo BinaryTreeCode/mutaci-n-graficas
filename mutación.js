@@ -1,343 +1,188 @@
-// ¡MUY IMPORTANTE HACER UNA GRAFICA MAS DE NATALIDA!
-
-//***mejorar la nomenclatura la que se nombran las variables.
-//***Pasar las variables a let o const respectivamente.
-//***Analizar función.
-//***Cambiar el while.
-
 const totalGeneracionesInput = document.getElementById("totalGeneraciones");
-//totalGeneracionesInput  = generaciones a generar
 
-const initialOsosInput = document.getElementById("individuos");
-
+const initialBearsInput = document.getElementById("individuos");
 const dataBase = [];
-let totalGeneraciones; //*scope
 
-//**analizar estructura de la clase
-//IMPORTANTE
-class dataGeneracion {
+
+class generacionData {
     constructor() {
-        this.osos = []; /*hacer un toltal de todos los osos para hacer debugging*/
-        this.ososBlancos = [];
-        this.ososNegros = []
-        this.ososHijos = [];
-        this.ososMuertos = [];
-        this.ososMacho = [];
-        this.ososHembra = [];
+        this.bears = []; /*hacer un toltal de todos los bears para hacer debugging*/
+        this.bearsVivos;
+        this.bearsMuertos;
+        this.bearsBlancos;
+        this.bearsNegros;
+        this.bearsMacho;
+        this.bearsHembra;
+        this.bearsHijos;
     }
 }
 
-
-//**mejorar
-//cear arrays con la clase dataGeneracion   
-function createDataStructure() {
-    i = a; //*que es 'a'
-    totalGeneraciones = parseInt(totalGeneracionesInput.value); //*totalGeneracionesInput
-    while (i <= totalGeneraciones) { //*for?
-        dataStructure = new dataGeneracion();
-        dataBase.push(dataStructure); //*best method?
-        i++;
-    }
-}
-
-const ososGeneracion0 = []
-
-//cear ososIniciales con la clase oso 
-function ososIniciales() {
-    i = 1;
-    var initialOsos = parseInt(initialOsosInput.value);
-    while (i <= initialOsos) {
-        let osoStats = new oso(true);
-        ososGeneracion0.push(osoStats)
-        i++;
-    }
-}
-
-//***cambiar todos los strings de las clases por 1 y 0 para mejorar el rendimiento
-
-class oso { //**ver opciones de Math.floor((Math.random)) y hacer función
+class bear {
     constructor(color) {
-        this.probabilityMuerte = getRandomNumber();
-        this.probabilityMutacion = getRandomNumber();
         this.yearsLife = ((Math.round(Math.random() * 4 + 3)) * 5);
-        if (Math.round(Math.random()) == 1) {
-            this.genero = "macho";
-        } else {
-            this.genero = "hembra";
-        }
-        this.isLife = true;
+        this.genero = aleatory(0.50); // 1 = macho | 0 = hembra
+        this.isLife = aleatory(0.50); // 1 = vivo | 0 = muerto
+        this.color = color || aleatory(0.50) // 1 = blanco | 0 = negro
         this.comidaCount = 2;
-        this.color = color;
+
+        function aleatory(percentage) {
+            let probability = Math.round(Math.random() * 100) / 100
+            return (probability <= percentage) ? 1 : 0;
+        }
     }
 }
 
-//decidi usar  decimaler ya que es la forma natural de Math.random() y de la probabilidad en general
-function getRandomNumber() { 
-   return Math.round(Math.random() * 100) / 100
-}
-
-//determina si el oso esta vivo o muerto por medio del siguiente algortimo 
+//determina si el bear esta vivo o muerto por medio del siguiente algortimo 
 //y su variable aleatoria muerte 
-function setIsLife(length, osos) {
-    i = i - i;
-    while (i <= length) {
-        if (osos[i].probabilityMuerte >= 0.50) {
-            osos[i].isLife = "vivo" //*1
-        }
-        else {
-            osos[i].isLife = "muerto" //*0
-        }
-        i++;
+
+function setIsLife(bear) {
+    if (bear.yearsLife <= 0 || bear.comidaCount <= 0) {
+        return bear.isLife = 0;
     }
 }
 
-//determina si el oso va a mutar por medio del siguiente algortimo 
-//y su variable aleatoria mutación 
-function ismutante(length, osos) {
-    i = i - i;
-    while (i <= length) {
-        if (osos[i].color == "negro" || osos[i].color == true) {
-            if (osos[0 + i].isLife === "vivo" && osos[0 + i].probabilityMutacion <= 0.20) {
-                osos[i].color = "blanco"
-            }
-            else {
-                osos[i].color = "negro"
-            }
-        }
-        else {
-
-        }
-        i++;
-    }
-}
-
-// var focas = 5000; //debido a la dificultad de la caza no puse un limite de focas
-//determina si la caza de un oso va hacer extiosa por medio del siguiente  
+//determina si la caza de un bear va hacer extiosa por medio del siguiente  
 //algortimo y su pelaje siendo el blanco el mas apto
-function iscaza(length, osos) {
-    i = i - i;
-    // focas = input_array.length;
-    while (i < length) {
-        cazador = osos[i];
-        if (cazador.color == "blanco") {
-            probabilitycaza = Math.round(Math.random()); 
-        }
-        else {
-            probabilitycaza =  Math.round(Math.random() * (1 - 0.1) + 0.1 * 10) / 10; //probabilidad de 1 entre 10
-        }
-        if (probabilitycaza == 1) {
-            // focas--;
-            cazador.comidaCount += 1;
-            // console.log("caza exitosa");
-        }
-        i++;
-    }
-}
 
-var arrayM; //arrayM array para registrar las muertes;
-//determina si el oso esta vivo o muerto por medio del siguiente algortimo 
-function getOsosVivos(length, osos, ososVivos) {
-    // console.log(input_array);
-    i = i - i;
-    while (i <= length) {
-        if (osos[i].yearsLife <= 0) { //|| input_array[i].comidaCount <= 0
-            osos[i].isLife = "muerto"
-            // console.log(a + " muerte natural");
-        }
-        else if (osos[i].comidaCount <= 0) {
-            osos[i].isLife = "muerto"
-            // console.log(a + " muerte por hambre");
-        }
-        else if (osos[i].isLife == "muerto") {
-            // console.log(a + " muerte");
-        }
-        i++;
-    }
+function iscaza(color) {
+    let probabilitycaza = (color == 1) ? Math.round(Math.random()) : Math.round(Math.random() * (1 - 0.1) + 0.1 * 10) / 10
+    return (probabilitycaza == 1) ? 0 : -1;
+} 
 
-    i = i - i;
-    while (i <= length) {
-        if (osos[i].isLife == "vivo") {
-            ososVivos.push(osos[i]) //los sobrevivientes
-        }
-        else {
-            arrayM = dataBase[a].ososMuertos;
-            arrayM.push(osos[i].isLife);
-        }
-        i++;
-    }
-}
-
-//simula la reprodución por medio de las leyes de Mendel
 function createHijos(hijos) {
-    i = i - i;
+
+    function makeHijo(color) {
+        hijos.push(new bear(color), new bear(color));
+    }
 
     //calculoHijos calcula el numero de hijos que se van a crear
     //en base al numero de machos y hembras
-    calculoHijos = machos.length - hembras.length;
+    const calculoHijos = machos.length - hembras.length;
 
-    if (calculoHijos <= 0) {
-        numeroHijos = machos.length;
-    } else {
-        numeroHijos = hembras.length;
-    }
-    while (i <= numeroHijos - 1) {
-        macho = machos[i];
-        hembra = hembras[i];
-        probabilityMutacion = getRandomNumber();
+    const numeroHijos = (calculoHijos <= 0) ? machos.length : hembras.length;
 
-        if (macho.color == hembra.color) {
-            if (macho.color == "blanco" && 20 <= probabilityMutacion) {
-                hijoBlanco = new oso("blanco");
-                hijos.push(hijoBlanco)
-                hijoBlanco = new oso("blanco");
-                hijos.push(hijoBlanco)
-            } else if (macho.color == "negro" && 20 <= probabilityMutacion) {
-                hijoNegro = new oso("negro");
-                hijos.push(hijoNegro);
-                hijoNegro = new oso("negro");
-                hijos.push(hijoNegro);
-            }
+    for (let i = 0; i <= numeroHijos - 1; i++) {
+        const hembraColor = hembras[i];
+        const machoColor = machos[i];
+        const probabilityMutacion = Math.round(Math.random() * 100) / 100;
+    
+        if (machoColor == hembraColor) {
+            (machoColor == 1) ? makeHijo(1) : makeHijo(0);
         } else {
-            if (50 < probabilityMutacion) {
-                hijoBlanco = new oso("blanco");
-                hijos.push(hijoBlanco)
-                hijoBlanco = new oso("blanco");
-                hijos.push(hijoBlanco)
-            }
-            else {
-                hijoNegro = new oso("negro", 0);
-                hijos.push(hijoNegro);
-                hijoNegro = new oso("negro", 0);
-                hijos.push(hijoNegro);
-            }
+            (0.50 < probabilityMutacion) ? makeHijo(1) : makeHijo(0);
         }
-        i++;
     }
+    
 }
-
-var largoo1, ouput_arrayy2;
-
 
 //ciclo de la primera genración con los individuos puestos por el usuario
-function ciclo0(length, osos, ososVivos, ososHijos) {
-    i = i - i;
-    setIsLife(length, osos)
-    ismutante(length, osos)
 
-    osos.forEach(element => {
-        element.yearsLife -= 5;
-        element.comidaCount -= 1;
-    });
-    iscaza(length, osos)
+function ciclo(generacionBears, i) { 
 
-    getOsosVivos(length, osos, ososVivos)
-    lengthOsosVivos = ososVivos.length - 1;
+    let bearsVivos = [];
+    let bearsMuertos = [];
+    let hijos = [];
 
-    machos = dataBase[0].ososMacho = ososVivos.filter(element => element.genero === "macho");
-    hembras = dataBase[0].ososHembra = ososVivos.filter(element => element.genero === "hembra");
+    generacionBears.forEach(bear => {
+        setIsLife(bear)
+        if (bear.isLife == 1) {
+            bear.yearsLife -= 5;
 
-    createHijos(ososHijos)
-
-    largoo1 = ososHijos.length - 1;
-    ouput_arrayy2 = ososHijos;
-}
-
-//ciclo del resto de las generaciones
-function ciclo(generacion, hijos_generacion) {
-    // revisar codigo no nesario en el ciclo de aqui
-    setIsLife(largoo1, ouput_arrayy2)
-    ismutante(largoo1, ouput_arrayy2)
-
-    //ouput_arrayy2 son los hijos no definidos(sin genero o estado) de la generacion anterior
-
-    ouput_arrayy2.forEach(oso => {
-        oso.yearsLife -= 5;
-        oso.comidaCount -= 1;
-
-        if (oso.yearsLife <= 0) {
-            oso.isLife = "muerto"
+            bear.comidaCount += iscaza(bear.color)
+            bearsVivos.push(bear)
+        } else {
+            bearsMuertos.push(0);
         }
     });
 
-    iscaza(largoo1, ouput_arrayy2)
+    machos = bearsVivos.bearsMacho = bearsVivos
+        .filter(element => element.genero === 1)
+        .map(element => element.color);
 
-    getOsosVivos(largoo1, ouput_arrayy2, generacion)
+    hembras = bearsVivos.bearsHembra = bearsVivos
+        .filter(element => element.genero === 0)
+        .map(element => element.color);
 
-    dataBase[a - 1].osos.forEach(element => {
-        generacion.push(element)
-    });
+    createHijos(hijos)
 
+    dataBase[i].bearsVivos = bearsVivos.length;
+    dataBase[i].bearsMuertos = bearsMuertos.length;
 
-    //HA AQUI
-    lengthOsosVivos = generacion.length - 1;
+    dataBase[i].bearsBlancos = bearsVivos.filter(element => element.color == 1).length;
+    dataBase[i].bearsNegros = bearsVivos.filter(element => element.color == 0).length;
 
-    machos = dataBase[a].ososMacho = generacion.filter(element => element.genero === "macho");
-    hembras = dataBase[a].ososHembra = generacion.filter(element => element.genero === "hembra");
+    dataBase[i].bearsMacho = machos.length;
+    dataBase[i].bearsHembra = hembras.length;
 
-    createHijos(hijos_generacion)
+    dataBase[i].bearsHijos = hijos.length;
 
-    largoo1 = hijos_generacion.length - 1;
-    ouput_arrayy2 = hijos_generacion;
+    return [...bearsVivos, ...hijos]
 }
 
-i = 0;
-a = 0;
-var generaciones;
-var array_secreto = [];
 
-//ejecuta el programa
-function Crear_osos() {
-    a = 1; //a es la variable iterativa que se usa para el ciclo, sabiendo que ciclo
-    //son todos los ciclos despues del ciclo inicial "ciclo1". 
-    createDataStructure();
-    ososIniciales();
-    i = 0
+//ejecuta todo el programa
+function Crear_Bears() {
+    const totalGeneraciones = parseInt(totalGeneracionesInput.value) + 1;
+    createDataStructure(totalGeneraciones);
+    createInitialBears();
 
-    largo = ososGeneracion0.length - 1;
-    largo_final = dataBase.length - 1;
-    generacion1 = dataBase[0].osos;
-    hijos_generacion1 = dataBase[0].ososHijos;
-    mutantes1 = dataBase[0].mutantes;
-    muertes1 = dataBase[0].ososMuertos;
-
-    ciclo0(largo, ososGeneracion0, generacion1, hijos_generacion1)
-
-    a = a;
-    while (a <= largo_final) {
-        ciclo(dataBase[a].osos, dataBase[a].ososHijos)
-        a++;
+    let i = 0;
+    while (i < totalGeneraciones - 1) {
+        dataBase[i+1].bears = ciclo(dataBase[i].bears, i)
+        i++;
     }
 
-
-    // largo = document.getElementById("contenedor");
-    // largo.style.margin-bottom = "2rem";
     graficar();
-
-    console.log("true");
 }
 
+//**mejorar
+//cear arrays con la clase dataGeneracion   
+function createDataStructure(totalGeneraciones) {
+    for (let i = 1; i <= totalGeneraciones; i++) {
+        dataBase.push(new generacionData ());
+    }
+}
+
+//cear bearsIniciales con la clase bear 
+function createInitialBears() {
+    const initialBears = parseInt(initialBearsInput.value);
+    
+    for (let i = 0; i <= initialBears; i++) {
+        dataBase[0].bears.push(new bear())
+    }
+}
 
 
 //mapea los datos para la grafica
-var etiqueta_muerto = [], etiqueta_vivo = [], etiqueta_macho = [], etiqueta_hembra = [], etiqueta_mutación = [], etiqueta_sobreviviente = [];
-function etiquetas() {
-    nombres()
-    etiqueta_muerto = dataBase.map(element => element.ososMuertos.length);
-    etiqueta_vivo = dataBase.map(element => element.osos.length);
-    etiqueta_macho = dataBase.map(element => element.ososMacho.length);
-    etiqueta_hembra = dataBase.map(element => element.ososHembra.length);
-    etiqueta_blanco = dataBase.map(element => element.ososBlancos.length);
-    etiqueta_negro = dataBase.map(element => element.ososNegros.length);
+function getLabels() {
+    getGeneracionLabel()
+
+    labelVivo = getEtiqueta("bearsVivos");
+    labelMuerto = getEtiqueta("bearsMuertos");
+
+    labelBlanco = getEtiqueta("bearsBlancos");
+    labelNegro = getEtiqueta("bearsNegros");
+
+    labelMacho = getEtiqueta("bearsMacho");
+    labelEmbra = getEtiqueta("bearsHembra");
+
+    labelHijos = getEtiqueta("bearsHijos");
+
+    function getEtiqueta(bears) {
+        return dataBase.map(element => element[bears]);
+    }
 }
 
-var etiqueta_generación = [];
-function nombres() {
-    i = 1;
-    IDGenración = parseInt(totalGeneracionesInput.value);
-    while (i <= IDGenración) {
-        etiqueta_generación.push(i);
+
+
+function getGeneracionLabel() {
+    const generacionIds = [];
+    let i = 1;
+    while (i <= parseInt(totalGeneracionesInput.value)) {
+        generacionIds.push(i);
         i++;
     }
+    return generacionIds;
 }
 
 
@@ -357,46 +202,53 @@ function grafica() {
     }
 
     const dataset = {
-        labels: etiqueta_generación,
+        labels: generacionLabel = getGeneracionLabel(),
         datasets: [
             {
-                label: 'crecimiento poblacional total',
+                label: 'poblacional total',
                 fill: false,
                 backgroundColor: colors.vivo,
                 borderColor: colors.vivo,
-                data: etiqueta_vivo,
+                data: labelVivo, 
             }, {
+                label: 'Muertes',
+                backgroundColor: colors.muerto,
+                borderColor: colors.muerto,
+                data: labelMuerto,
+                fill: true,
+            },  {
                 label: 'polares',
                 fill: false,
                 backgroundColor: colors.mutante,
                 borderColor: colors.mutante,
                 borderDash: [5, 5],
-                data: etiqueta_blanco,
+                data: labelBlanco,
             }, {
                 label: 'pardos',
                 fill: false,
                 backgroundColor: colors.negro,
                 borderColor: colors.negro,
-                data: etiqueta_negro,
-            }, {
-                label: 'Muertes',
-                backgroundColor: colors.muerto,
-                borderColor: colors.muerto,
-                data: etiqueta_muerto,
-                fill: true,
-            }, {
+                data: labelNegro,
+            },{
                 label: 'machos',
                 backgroundColor: colors.macho,
                 borderColor: colors.macho,
-                data: etiqueta_macho,
+                data: labelMacho,
                 fill: false,
             }, {
                 label: 'hembras',
                 backgroundColor: colors.hembra,
                 borderColor: colors.hembra,
-                data: etiqueta_hembra,
+                data: labelEmbra,
                 fill: false,
-            },
+            }, 
+            {
+                label: 'natalidad',
+                backgroundColor: "rgb(252, 235, 243)",
+                borderColor: "rgb(211, 0, 91)",
+                data: labelHijos,
+                fill: true,
+            }
         ]
     }
 
@@ -419,8 +271,8 @@ function grafica() {
 }
 
 function graficar() {
-    etiquetas()
+    getLabels()
     grafica()
 }
 
-console.log(Crear_osos()); 
+console.log(Crear_Bears()); 
