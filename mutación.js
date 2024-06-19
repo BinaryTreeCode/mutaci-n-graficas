@@ -3,17 +3,39 @@ const totalGeneracionesInput = document.getElementById("totalGeneraciones");
 const initialBearsInput = document.getElementById("individuos");
 const dataBase = [];
 
+function executeOrder() {
+    //+1 para generar la información de la proxima generación
+    const totalGeneraciones = parseInt(totalGeneracionesInput.value) + 1;
+    createDataStructure(totalGeneraciones);
+    createInitialBears();
 
-class generacionData {
-    constructor() {
-        this.bears = []; /*hacer un toltal de todos los bears para hacer debugging*/
-        this.bearsVivos;
-        this.bearsMuertos;
-        this.bearsBlancos;
-        this.bearsNegros;
-        this.bearsMacho;
-        this.bearsHembra;
-        this.bearsHijos;
+    let i = 0;
+
+    //sin ese -1 se daña
+    while (i < totalGeneraciones - 1) {
+        dataBase[i + 1].bears = ciclo(dataBase[i].bears, i)
+        i++;
+    }
+
+    createGrafica();
+}
+
+function createDataStructure(totalGeneraciones) {
+    class generacionData {
+        constructor() {
+            this.bears = [];
+            this.bearsVivos;
+            this.bearsMuertos;
+            this.bearsBlancos;
+            this.bearsNegros;
+            this.bearsMacho;
+            this.bearsHembra;
+            this.bearsHijos;
+        }
+    }
+
+    for (let i = 1; i <= totalGeneraciones; i++) {
+        dataBase.push(new generacionData());
     }
 }
 
@@ -22,68 +44,33 @@ class bear {
         this.yearsLife = ((Math.round(Math.random() * 4 + 3)) * 5);
         this.genero = aleatory(0.50); // 1 = macho | 0 = hembra
         this.isLife = aleatory(0.50); // 1 = vivo | 0 = muerto
-        this.color = color || aleatory(0.50) // 1 = blanco | 0 = negro
+        this.color = color || aleatory(0.01) // 1 = blanco | 0 = negro
         this.comidaCount = 2;
 
+        // use 1 y 0, ya que ocupa menos espacio que un String
         function aleatory(percentage) {
-            let probability = Math.round(Math.random() * 100) / 100
+            const probability = Math.round(Math.random() * 100) / 100
             return (probability <= percentage) ? 1 : 0;
         }
     }
 }
 
-//determina si el bear esta vivo o muerto por medio del siguiente algortimo 
-//y su variable aleatoria muerte 
+function createInitialBears() {
+    const initialBears = parseInt(initialBearsInput.value);
 
-function setIsLife(bear) {
-    if (bear.yearsLife <= 0 || bear.comidaCount <= 0) {
-        return bear.isLife = 0;
+    for (let i = 0; i <= initialBears; i++) {
+        dataBase[0].bears.push(new bear())
     }
 }
 
-//determina si la caza de un bear va hacer extiosa por medio del siguiente  
-//algortimo y su pelaje siendo el blanco el mas apto
 
-function iscaza(color) {
-    let probabilitycaza = (color == 1) ? Math.round(Math.random()) : Math.round(Math.random() * (1 - 0.1) + 0.1 * 10) / 10
-    return (probabilitycaza == 1) ? 0 : -1;
-} 
-
-function createHijos(hijos) {
-
-    function makeHijo(color) {
-        hijos.push(new bear(color), new bear(color));
-    }
-
-    //calculoHijos calcula el numero de hijos que se van a crear
-    //en base al numero de machos y hembras
-    const calculoHijos = machos.length - hembras.length;
-
-    const numeroHijos = (calculoHijos <= 0) ? machos.length : hembras.length;
-
-    for (let i = 0; i <= numeroHijos - 1; i++) {
-        const hembraColor = hembras[i];
-        const machoColor = machos[i];
-        const probabilityMutacion = Math.round(Math.random() * 100) / 100;
-    
-        if (machoColor == hembraColor) {
-            (machoColor == 1) ? makeHijo(1) : makeHijo(0);
-        } else {
-            (0.50 < probabilityMutacion) ? makeHijo(1) : makeHijo(0);
-        }
-    }
-    
-}
-
-//ciclo de la primera genración con los individuos puestos por el usuario
-
-function ciclo(generacionBears, i) { 
+function ciclo(bearsGeneracion, i) {
 
     let bearsVivos = [];
     let bearsMuertos = [];
     let hijos = [];
 
-    generacionBears.forEach(bear => {
+    bearsGeneracion.forEach(bear => {
         setIsLife(bear)
         if (bear.isLife == 1) {
             bear.yearsLife -= 5;
@@ -119,43 +106,54 @@ function ciclo(generacionBears, i) {
     return [...bearsVivos, ...hijos]
 }
 
-
-//ejecuta todo el programa
-function Crear_Bears() {
-    const totalGeneraciones = parseInt(totalGeneracionesInput.value) + 1;
-    createDataStructure(totalGeneraciones);
-    createInitialBears();
-
-    let i = 0;
-    while (i < totalGeneraciones - 1) {
-        dataBase[i+1].bears = ciclo(dataBase[i].bears, i)
-        i++;
-    }
-
-    graficar();
-}
-
-//**mejorar
-//cear arrays con la clase dataGeneracion   
-function createDataStructure(totalGeneraciones) {
-    for (let i = 1; i <= totalGeneraciones; i++) {
-        dataBase.push(new generacionData ());
+/*tuve que pasar el objeto completo, ya que asignar el valor directamente a "oso.isLife = fuction()".
+Tendria que comtemplar el caso en el que isLife sea 0 desde el incio y si es así retonar 0 y si no 1 */
+function setIsLife(bear) {
+    if (bear.yearsLife <= 0 || bear.comidaCount <= 0) {
+        return bear.isLife = 0;
     }
 }
 
-//cear bearsIniciales con la clase bear 
-function createInitialBears() {
-    const initialBears = parseInt(initialBearsInput.value);
-    
-    for (let i = 0; i <= initialBears; i++) {
-        dataBase[0].bears.push(new bear())
+function iscaza(color) {
+    let probabilitycaza = (color == 1) ? Math.round(Math.random()) : Math.round(Math.random() * (1 - 0.1) + 0.1 * 10) / 10
+    return (probabilitycaza == 1) ? 0 : -1;
+}
+
+function createHijos(hijos) {
+
+    function makeHijo(color) {
+        hijos.push(new bear(color), new bear(color));
     }
+
+    const calculoHijos = machos.length - hembras.length;
+
+    /*esto significa que si hay mayor numero de hembras entonces estas,
+    seran embarazadas por los machos. Por el contrario a los machos ser 
+    mas solo podran embarzar a z numero de hembras*/
+    const numeroHijos = (calculoHijos <= 0) ? machos.length : hembras.length;
+
+    for (let i = 0; i <= numeroHijos - 1; i++) {
+        const hembraColor = hembras[i];
+        const machoColor = machos[i];
+        const probabilityMutacion = Math.round(Math.random() * 100) / 100;
+
+        //ley de mendel
+        if (machoColor == hembraColor) {
+            (machoColor == 1) ? makeHijo(1) : makeHijo(0);
+        } else {
+            (0.50 < probabilityMutacion) ? makeHijo(1) : makeHijo(0);
+        }
+    }
+
 }
 
 
-//mapea los datos para la grafica
+function createGrafica() {
+    getLabels()
+    setGrafica()
+}
+
 function getLabels() {
-    getGeneracionLabel()
 
     labelVivo = getEtiqueta("bearsVivos");
     labelMuerto = getEtiqueta("bearsMuertos");
@@ -173,8 +171,6 @@ function getLabels() {
     }
 }
 
-
-
 function getGeneracionLabel() {
     const generacionIds = [];
     let i = 1;
@@ -186,8 +182,7 @@ function getGeneracionLabel() {
 }
 
 
-//crea la grafica con dataset
-function grafica() {
+function setGrafica() {
     Chart.defaults.color = '#000000';
     Chart.defaults.font.size = 17;
 
@@ -209,19 +204,13 @@ function grafica() {
                 fill: false,
                 backgroundColor: colors.vivo,
                 borderColor: colors.vivo,
-                data: labelVivo, 
+                data: labelVivo,
             }, {
-                label: 'Muertes',
-                backgroundColor: colors.muerto,
-                borderColor: colors.muerto,
-                data: labelMuerto,
-                fill: true,
-            },  {
                 label: 'polares',
                 fill: false,
-                backgroundColor: colors.mutante,
-                borderColor: colors.mutante,
-                borderDash: [5, 5],
+                backgroundColor: "rgb(255, 255, 255)",
+                borderColor: "rgb(173, 216, 230)",
+                // borderDash: [5, 5],
                 data: labelBlanco,
             }, {
                 label: 'pardos',
@@ -229,7 +218,7 @@ function grafica() {
                 backgroundColor: colors.negro,
                 borderColor: colors.negro,
                 data: labelNegro,
-            },{
+            }, {
                 label: 'machos',
                 backgroundColor: colors.macho,
                 borderColor: colors.macho,
@@ -241,38 +230,79 @@ function grafica() {
                 borderColor: colors.hembra,
                 data: labelEmbra,
                 fill: false,
-            }, 
+            }, {
+                label: 'Muertes',
+                backgroundColor: colors.muerto,
+                borderWidth: 2,
+                borderColor: "rgb(0, 0, 0)",
+                pointBorderColor: "rgb(0, 0, 0)",
+                data: labelMuerto,
+                fill: true,
+            },
             {
                 label: 'natalidad',
                 backgroundColor: "rgb(252, 235, 243)",
                 borderColor: "rgb(211, 0, 91)",
+                borderWidth: 2.2,
+                pointBackgroundColor: "rgb(211, 0, 91)",
                 data: labelHijos,
                 fill: true,
-            }
+            },
         ]
     }
 
     const ctx = document.getElementById('grafica');
+
+    const totalDuration = 750 * generacionLabel.length;
+    const delayBetweenPoints = totalDuration / generacionLabel.length;
+    const previousY = (ctx) => ctx.index === 0 ? ctx.chart.scales.y.getPixelForValue(100) : ctx.chart.getDatasetMeta(ctx.datasetIndex).data[ctx.index - 1].getProps(['y'], true).y;
+    const animation = {
+        x: {
+            type: 'number',
+            easing: 'linear',
+            duration: delayBetweenPoints,
+            from: NaN, // the point is initially skipped
+            delay(ctx) {
+                if (ctx.type !== 'data' || ctx.xStarted) {
+                    return 0;
+                }
+                ctx.xStarted = true;
+                return ctx.index * delayBetweenPoints;
+            }
+        },
+        y: {
+            type: 'number',
+            easing: 'linear',
+            duration: delayBetweenPoints,
+            from: previousY,
+            delay(ctx) {
+                if (ctx.type !== 'data' || ctx.yStarted) {
+                    return 0;
+                }
+                ctx.yStarted = true;
+                return ctx.index * delayBetweenPoints;
+            }
+        }
+    };
+
     const myChart = new Chart(ctx, {
         type: 'line',
-        data:
-            dataset,
+        data: dataset,
         options: {
-            // interactive: true,
-            // animation: true,
-            // responsive: true,
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
+            animation,
+            interaction: {
+                intersect: false
             },
+            plugins: {
+                legend: false,
+                title: {
+                    display: true,
+                    // text: () => easing.name
+                }
+            }
         }
     });
 }
 
-function graficar() {
-    getLabels()
-    grafica()
-}
 
-console.log(Crear_Bears()); 
+console.log(executeOrder()); 

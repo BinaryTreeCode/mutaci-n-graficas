@@ -16,19 +16,19 @@
         <form action="">
             <label for="veses">
                 <span>¿cuantas generacionses quieres?</span>
-                <input type="text" id="totalGeneraciones" placeholder="numero de generacionses" required value="15"/>
+                <input type="text" id="totalGeneraciones" placeholder="numero de generacionses" required value="20"/>
             </label>
             <br>
             <label for="individuos">
                 <span>¿Con cuantos individuos quieres comenzar el experimento?</span>
-                <input type="text" id="individuos" placeholder="numero inicial de individuos" required value="200"/>
+                <input type="text" id="individuos" placeholder="numero inicial de individuos" required value="100"/>
             </label>
             <br>
         </form>
         <canvas id="grafica" width="500" height="500"></canvas>
         <label for="btn" class="text">
             <span>muestra el avance evolutivo generación a generación</span>
-            <button id="btn" onclick="Crear_Bears()">¿comenzar el experimento?</button>
+            <button id="btn" onclick="executeOrder()">¿comenzar el experimento?</button>
         </label>
     </div>
     <picture>
