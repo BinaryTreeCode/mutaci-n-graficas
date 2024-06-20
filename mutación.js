@@ -18,6 +18,7 @@ function executeOrder() {
     }
 
     createGrafica();
+    dataBase.length = 0;
 }
 
 function createDataStructure(totalGeneraciones) {
@@ -44,7 +45,7 @@ class bear {
         this.yearsLife = ((Math.round(Math.random() * 4 + 3)) * 5);
         this.genero = aleatory(0.50); // 1 = macho | 0 = hembra
         this.isLife = aleatory(0.50); // 1 = vivo | 0 = muerto
-        this.color = color || aleatory(0.01) // 1 = blanco | 0 = negro
+        this.color = color !== undefined ? color : aleatory(0.05);  // 1 = blanco | 0 = negro
         this.comidaCount = 2;
 
         // use 1 y 0, ya que ocupa menos espacio que un String
@@ -115,7 +116,7 @@ function setIsLife(bear) {
 }
 
 function iscaza(color) {
-    let probabilitycaza = (color == 1) ? Math.round(Math.random()) : Math.round(Math.random() * (1 - 0.1) + 0.1 * 10) / 10
+    let probabilitycaza = (color == 1) ? Math.round(Math.random()) : Math.round((Math.random() * (1 - 0.1) + 0.1) * 10) / 10;
     return (probabilitycaza == 1) ? 0 : -1;
 }
 
@@ -147,7 +148,7 @@ function createHijos(hijos) {
 
 }
 
-
+// grafica
 function createGrafica() {
     getLabels()
     setGrafica()
@@ -182,6 +183,7 @@ function getGeneracionLabel() {
 }
 
 
+let myChart;
 function setGrafica() {
     Chart.defaults.color = '#000000';
     Chart.defaults.font.size = 17;
@@ -253,56 +255,59 @@ function setGrafica() {
 
     const ctx = document.getElementById('grafica');
 
-    const totalDuration = 750 * generacionLabel.length;
-    const delayBetweenPoints = totalDuration / generacionLabel.length;
-    const previousY = (ctx) => ctx.index === 0 ? ctx.chart.scales.y.getPixelForValue(100) : ctx.chart.getDatasetMeta(ctx.datasetIndex).data[ctx.index - 1].getProps(['y'], true).y;
-    const animation = {
-        x: {
-            type: 'number',
-            easing: 'linear',
-            duration: delayBetweenPoints,
-            from: NaN, // the point is initially skipped
-            delay(ctx) {
-                if (ctx.type !== 'data' || ctx.xStarted) {
-                    return 0;
-                }
-                ctx.xStarted = true;
-                return ctx.index * delayBetweenPoints;
-            }
-        },
-        y: {
-            type: 'number',
-            easing: 'linear',
-            duration: delayBetweenPoints,
-            from: previousY,
-            delay(ctx) {
-                if (ctx.type !== 'data' || ctx.yStarted) {
-                    return 0;
-                }
-                ctx.yStarted = true;
-                return ctx.index * delayBetweenPoints;
-            }
-        }
-    };
+    //No he podido dar una animación a la grafica
+    // const totalDuration = 600 * generacionLabel.length;
+    // const delayBetweenPoints = totalDuration / generacionLabel.length;
+    // const previousY = (ctx) => ctx.index === 0 ? ctx.chart.scales.y.getPixelForValue(100) : ctx.chart.getDatasetMeta(ctx.datasetIndex).data[ctx.index - 1].getProps(['y'], true).y;
+    // const animation = {
+    //     x: {
+    //         type: 'number',
+    //         easing: 'linear',
+    //         duration: delayBetweenPoints,
+    //         from: NaN, // the point is initially skipped
+    //         delay(ctx) {
+    //             if (ctx.type !== 'data' || ctx.xStarted) {
+    //                 return 0;
+    //             }
+    //             ctx.xStarted = true;
+    //             return ctx.index * delayBetweenPoints;
+    //         }
+    //     },
+    //     y: {
+    //         type: 'number',
+    //         easing: 'linear',
+    //         duration: delayBetweenPoints,
+    //         from: previousY,
+    //         delay(ctx) {
+    //             if (ctx.type !== 'data' || ctx.yStarted) {
+    //                 return 0;
+    //             }
+    //             ctx.yStarted = true;
+    //             return ctx.index * delayBetweenPoints;
+    //         }
+    //     }
+    // };
 
-    const myChart = new Chart(ctx, {
+    if (myChart) {
+        myChart.destroy();
+    }
+
+    myChart = new Chart(ctx, {
         type: 'line',
         data: dataset,
         options: {
-            animation,
+            //animation,
             interaction: {
-                intersect: false
+                intersect: true
             },
             plugins: {
-                legend: false,
-                title: {
-                    display: true,
-                    // text: () => easing.name
-                }
-            }
+                legend: true
+            },
+            // scales: {
+            //     x: {
+            //         type: 'linear'
+            //     }
+            // }
         }
     });
 }
-
-
-console.log(executeOrder()); 
